@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Story+Script&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Google Sans Flex', sans-serif;
+  background-color: #F2F0EF;
+}
+
+::selection{
+  background-color: #A259FF !important;
+  padding: 5px !important;
+  color: white;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
+  color: black;
+  font-family: 'Google Sans Flex', sans-serif;
+  background-color: #F2F0EF;
+  font-size: 1.0rem;
+}
+
+a{
+  text-decoration: none;
+}
+
+button{
+ display: flex;
+ width: fit-content;
+ align-items: center;
+ justify-content: center;
+ height: 45px;
+ border: 0px;
+ background-color: #A259FF;
+ padding: 10px;
+ color: white;
+ margin: 10px;
+ border-radius: 10px;
+ font-size: 1.0rem;
+ font-weight: 400;
+ text-decoration: none;
+}
+
+button>svg{
+  margin: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.dashboard-container{
+  display: flex;
+}
+
+.navigation-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+}
+
+.navigation{
+  width: min(100%, 1500px);
+  height: 55px;
+  margin: 20px auto 0;
+  padding: 5px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 350;
+  color: white;
+  background-color: #A259FF;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.nav-items{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+
+.title{
+  color: white;
+  font-family: 'Google Sans Flex', sans-serif;
+  font-weight: 450;
+  font-size: 1.1rem;
+  margin: 0 6px;
+  text-decoration: none;
+}
+
+.nav-item{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  color: white;
+  background-color: #A259FF;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 450;
+}
+
+#login-button{
+  background-color: #F2F0EF;
+  color: #A259FF;
+}
+
+.nav-item:hover{
+  background-color: #A259FF !important;
+  color: white !important;
+  transition: 0.2s ease-in-out;
+}
+
+.nav-item>svg{
+  padding: 0 5px 0 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.dashboard-container,
+.login-container,
+.homepage-container{
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  margin: 0 auto;
+}
+
+.homepage-container{
+  align-items: center;
+  justify-content: center;
+
+}
+
+.landing-area{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  height: fit-content;
+  border-radius: 20px;
+}
+
+.main-heading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-family: 'Google Sans Flex', sans-serif;
+  font-size: 3.0rem;
+  font-weight: 450;
+  letter-spacing: 0.02em;
+  height: fit-content;
+  padding: 10px;
+}
+
+.sub-heading{
+  display: flex;
+  font-size: 2.0rem;
+  color:#A259FF;
+}
+
+.cta-homepage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-decoration: none;
+}
+
+.cards-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card{
+  display: flex;
+  width: 500px;
+  height: fit-content;
+  background-color: #A259FF;
+}
+
+.card-title{
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;;
+  font-size: 1.3rem;
+  height: 80px;
+  min-height: 100px;
+  text-align: center;
+  padding: 10px;
+  font-family: 'Google Sans Flex', sans-serif;
+}
+
+.FourOFour {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100dvh;
+  font-family: 'Google Sans Flex', sans-serif;
+  font-size: 2.0rem;
+  color: white;
+}
+
+
+.notes-list{
+  width: 50%;
+  margin: 0 auto;
+  height: fit-content;
+  border: 2px solid #A259FF;
+  padding: 10px;
+}
