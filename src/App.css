@@ -13,7 +13,7 @@ html, body, #root {
 
 body {
   font-family: 'Google Sans Flex', sans-serif;
-  background-color: #F2F0EF;
+  background-color: var(--color-background);
 }
 
 ::selection{
@@ -28,10 +28,15 @@ body {
   margin: 0 auto;
   width: 100%;
   min-height: 100vh;
-  color: black;
+  color: var(--gray-12);
   font-family: 'Google Sans Flex', sans-serif;
-  background-color: #F2F0EF;
   font-size: 1.0rem;
+}
+
+.app-theme {
+  min-height: 100vh;
+  background-color: var(--gray-2);
+  color: var(--gray-12);
 }
 
 a{
@@ -43,12 +48,11 @@ button{
  width: fit-content;
  align-items: center;
  justify-content: center;
- height: 45px;
+ height: 40px;
  border: 0px;
  background-color: #A259FF;
  padding: 10px;
  color: white;
- margin: 10px;
  border-radius: 10px;
  font-size: 1.0rem;
  font-weight: 400;
@@ -56,7 +60,7 @@ button{
 }
 
 button>svg{
-  margin: 10px;
+  margin: 5px;
 }
 
 button:hover{
@@ -65,6 +69,8 @@ button:hover{
 
 .dashboard-container{
   display: flex;
+  flex-direction: row !important;
+  min-height: 100dvh;
 }
 
 .navigation-container{
@@ -76,13 +82,13 @@ button:hover{
 
 .navigation{
   width: min(100%, 1500px);
-  height: 55px;
+  height: 60px;
   margin: 20px auto 0;
   padding: 5px 11px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--gray-2);
   border-radius: 8px;
 }
 
@@ -135,7 +141,7 @@ button:hover{
 }
 
 #login-button{
-  background-color: #F2F0EF;
+  background-color: transparent;
   color: #A259FF;
 }
 
@@ -154,7 +160,6 @@ button:hover{
 .dashboard-container,
 .login-container,
 .homepage-container{
-
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -227,7 +232,7 @@ button:hover{
   display: flex;
   width: 500px;
   height: fit-content;
-  background-color: #A259FF;
+  background-color: var(--color-panel);
 }
 
 .card-title{
@@ -264,4 +269,241 @@ button:hover{
   height: fit-content;
   border: 2px solid #A259FF;
   padding: 10px;
+}
+
+.login{
+  display: flex;
+  height: 80dvh;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 80%;
+  color: white;
+}
+
+.login-box{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 360px;
+  color: var(--gray-12);
+  font-size: 2.0rem;
+  border: 0px !important;
+  background-color: var(--gray-2);
+  border-radius: 8px;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.login-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-header>.logo{
+color: #A259FF;
+}
+
+.login-buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:flex-end;
+  height: 250px;
+}
+
+.login-buttons>Button{
+  min-width: fit-content;
+  width: 45%;
+  height: 45px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 1.0rem;
+}
+
+.login-buttons>p{
+  font-size: 1.2rem;
+}
+
+.username{
+  display: flex;
+  margin: 10px;
+  font-weight: 300 !important;
+  font-family: 'Google Sans Flex', sans-serif !important;
+  font-size: 1.0rem !important;
+  width: 80%;
+  border: 0px !important;
+}
+
+.dashboard{
+  display: flex;
+  width: 80%;
+  height: 100dvh;
+  margin: 0 auto;
+  font-size: 1.0rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+  margin-top: 50px;
+  min-width: 0;
+  font-family: 'Google Sans Flex', sans-serif;
+}
+
+/* .dashboard-sidebar{
+  flex: 0 0 250px;
+  height: 80vh;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  margin: 10px;
+} */
+
+.dashboard-main{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 600px;
+  height: fit-content;
+}
+
+.dashboard-welcome{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-radius: 8px;
+}
+
+.heading{
+  font-size: 2.0rem;
+  text-align: left;
+}
+
+.dashboard-sub-heading{
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.operations{
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.whiteboards{
+display: flex;
+width: 100%;
+height: fit-content;
+min-height: 500px;
+margin-top: 20px;
+}
+
+.whiteboard-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  grid-template-rows: auto;
+  margin: 0;
+  gap: 15px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.whiteboard{
+  display: flex;
+  height: 250px;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border-radius: 8px;
+}
+
+.whiteboard-img{
+  display: flex;
+  width: 100%;
+  height: 250px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: var(--gray-2);
+}
+
+.whiteboard-img:hover{
+  background-color: #A259FF;
+}
+
+.whiteboard:hover{
+  color: white;
+  cursor:pointer;
+  transition: 0.2s ease-in;
+}
+
+.dashboard-toolbar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.toolbar-left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-toolbar>.toolbar-left>button,
+.dashboard-toolbar>.switch-views>button{
+  margin-right: 10px;
+}
+.whiteboard-search{
+  height: 40px;
+  width: fit-content;
+  border: 2px solid transparent;
+  background-color: var(--gray-2);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1.0rem;
+}
+
+.whiteboard-title{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  padding-top: 10px;
+}
+
+.whiteboard-subheading{
+  font-size: 1.0rem;
+  color: gray;
+}
+
+.whiteboard-canvas{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+
+.switch-views{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.table-toggle,
+.grid-toggle{
+  display: flex;
+  padding: 10px;
+  margin-right: 10px;
 }

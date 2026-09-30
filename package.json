@@ -12,6 +12,7 @@
   "dependencies": {
     "@liveblocks/react": "^3.24.1",
     "@radix-ui/themes": "^3.3.0",
+    "@vercel/analytics": "^2.0.1",
     "gsap": "^3.15.0",
     "react": "^19.2.8",
     "react-bits": "^1.0.5",
