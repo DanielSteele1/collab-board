@@ -1,9 +1,90 @@
-import { Link } from 'react-router'
 import { BiPlus } from "react-icons/bi";
 import { MdOutlineGridView, MdOutlinePassword } from "react-icons/md";
 import { LuTable2 } from 'react-icons/lu';
 
-function Dashboard() {
+import type { WhiteboardCollection } from '../Types.tsx';
+
+import WhiteboardCard from './WhiteboardCard.tsx';
+import { useState } from 'react';
+
+
+// later down the line 
+// - switch over to zustand
+// - look into how to generate a unique id for each board
+// - actually look into the whiteboard with liveblocks. 
+
+  const defaultBoards: WhiteboardCollection = [
+  {
+    id: '0',
+    title: "Ideas",
+    description: "A place for brainstorms",
+    color:  "#A259FF",
+    boardURL: "/whiteboard/example-board-0",
+  },
+  {
+    id: '1',
+    title: "Project Planning",
+    description: "Plan tasks and milestones",
+    color: "#4F8EF7",
+    boardURL: "/whiteboard/example-board-1",
+  },
+  {
+    id: '2',
+    title: "Project Work",
+    description: "Project Work",
+    color: "#ddab4e",
+    boardURL: "/whiteboard/example-board-2",
+  },
+
+];
+
+function Dashboard(){
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [boards, setBoards] = useState<WhiteboardCollection>(() => {
+
+    const SavedBoards = localStorage.getItem('whiteboardsArray');
+    return SavedBoards
+      ? JSON.parse(SavedBoards) as WhiteboardCollection
+      : defaultBoards;
+
+  });
+
+  function GenerateRandomColor(): string {
+    return `hsla(${Math.floor(360 * Math.random())}, 100%, 82%, 0.8)`;
+  }
+
+    const filteredBoards = boards.filter((board) => {
+
+    return board.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+    });
+
+
+   function CreateWhiteboard(){
+
+    const newBoard = {
+
+      id: crypto.randomUUID(),
+      title: 'generated-title',
+      description: 'generated-desc',
+      color: GenerateRandomColor(),
+      boardURL: `/whiteboard/${Date.now()}`,
+    };
+
+    const updatedBoards = [...boards, newBoard];
+    setBoards(updatedBoards);
+    localStorage.setItem('whiteboardsArray', JSON.stringify(updatedBoards));
+
+   }
+
+    function DeleteWhiteboard(boardId: string) {
+
+    const updatedBoards = boards.filter((board) => board.id !== boardId);
+    setBoards(updatedBoards);
+    localStorage.setItem('whiteboardsArray', JSON.stringify(updatedBoards));
+    
+   }
 
   return (
     <section className="dashboard-container">
@@ -22,9 +103,13 @@ function Dashboard() {
 
           <div className='toolbar-left'>
 
-          <button> <BiPlus /> Create a new workspace </button>
+          <button onClick={() => CreateWhiteboard()}> <BiPlus /> Create a new workspace </button>
           <button> <MdOutlinePassword /> Join a workspace via a code </button>
-          <input type="search" placeholder="Search for a whiteboard..." className="whiteboard-search" />
+          <input 
+          type="search" 
+          placeholder="Search for a whiteboard..." 
+          className="whiteboard-search"
+          onChange={(event) => setSearchTerm(event.target.value)} />
 
           </div>
 
@@ -46,106 +131,14 @@ function Dashboard() {
 
         <div className="whiteboard-grid">
 
-           <Link to='/whiteboard'>
-          <div className="whiteboard">
+    
+        {filteredBoards.map((board) => (
 
-            <div className="whiteboard-img">
-            </div>
 
-            <div className="whiteboard-title">
+        <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard}  />
 
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-           </Link>
-           
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
-          <div className="whiteboard">
-
-            <div className="whiteboard-img">
-            </div>
-
-            <div className="whiteboard-title">
-
-               <span> Example Board </span>
-               <span className="whiteboard-subheading"> Example Board Description </span>
-
-            </div>
-
-          </div>
-
+        ))}
+        
         </div>
 
        </div>

@@ -12,7 +12,6 @@ interface NavigationProps {
  
 };
 
-
 function Navigation({ isLightOn, toggleLight }: NavigationProps) {
 
   return (
@@ -24,7 +23,7 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
             <div className="logo"> 
               <AiOutlineBlock />  
               </div> 
-              <Link className="title" to='/'> Collaberative Whiteboard </Link>
+              <Link className="title" to='/'> Collaborative Whiteboard </Link>
             </span>
 
             <div className="nav-items">
