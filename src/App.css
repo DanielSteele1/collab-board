@@ -152,13 +152,18 @@ button{
  justify-content: center;
  height: 40px;
  border: 0px;
- background-color: #A259FF;
  padding: 10px;
+ background-color: #a560ff;
  color: white;
  border-radius: 10px;
  font-size: 1.0rem;
  font-weight: 400;
  text-decoration: none;
+}
+
+.btn-secondary{
+  border: 1px solid #A259FF;
+  color: var(--text-color);
 }
 
 button>svg{
@@ -597,7 +602,6 @@ margin-top: 20px;
   transition: 0.3s ease-in-out;
 }
 
-
 .whiteboard-subheading{
   font-size: 1.0rem;
   color: gray;
@@ -644,10 +648,39 @@ margin-top: 20px;
 }
 
 .no-results-icon{
-
   display: flex;
   font-size: 3.0rem;
+}
 
+.whiteboard-table{
+  width: 100%;
+  height: fit-content;
+}
+
+.table-body{
+  display: flex;;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.table-column-title{
+  font-size: 1.0rem;
+}
+
+.table-color{
+  height: 50px;
+  width: 50px;
+  border-radius: 12px;
+}
+
+.table-title{
+  font-size: 1.3rem;
+}
+
+.table-description{
+  font-size: 1.2rem;
 }
 
 @media(min-width: 300px) and (max-width: 750px) {

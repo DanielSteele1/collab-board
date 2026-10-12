@@ -4,6 +4,7 @@ import { LuTable2 } from 'react-icons/lu';
 import type { WhiteboardCollection } from '../Types.tsx';
 
 import WhiteboardCard from './WhiteboardCard.tsx';
+import WhiteboardTable from './whiteboard-table.tsx';
 import { useState } from 'react';
 import CreateBoardModal from './create-board-modal.tsx';
 
@@ -40,6 +41,8 @@ import CreateBoardModal from './create-board-modal.tsx';
 function Dashboard(){
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [view, setView] = useState(true);
   
   const [boards, setBoards] = useState<WhiteboardCollection>(() => {
 
@@ -49,7 +52,6 @@ function Dashboard(){
       : defaultBoards;
 
   });
-
 
   function GenerateRandomColor(): string {
     return `hsla(${Math.floor(360 * Math.random())}, 100%, 82%, 0.8)`;
@@ -115,37 +117,42 @@ function Dashboard(){
           </div>
 
           <div className="switch-views">
-            <button className="grid-toggle">
-             <MdOutlineGridView /> Grid 
-            </button>
-
-            <button className="table-toggle">
-              <LuTable2 /> Table
+            <button className="grid-toggle" onClick={ () => setView(prev => !prev)}>
+             {view ? (<div> <LuTable2 /> Table View </div>) : (<div> <MdOutlineGridView /> Grid View </div>) }
             </button>
           </div>
 
          </div>
-
         </div>
 
       <div className="whiteboards">
 
+        {view ? (
+
         <div className="whiteboard-grid">
         
-        {filteredBoards.length === 0 ? (
+         {filteredBoards.length === 0 ? (
           <div className="no-results">
           <span> No matching boards with the name <span id="highlight-text">"{searchTerm}"</span> found. </span>
           <span> Try searching for something else.</span> 
           </div>
-        ):(
+         ):(
 
-        filteredBoards.map((board) => (
-        <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard}  />
-        ))
+         filteredBoards.map((board) => (
+         <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard} />
+         ))
           
-        )}
+         )}
 
         </div>
+
+        ) : (
+
+            <WhiteboardTable boards={filteredBoards} onDelete={DeleteWhiteboard} />        
+          )
+      }
+
+ 
 
        </div>
 

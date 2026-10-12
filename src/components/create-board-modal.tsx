@@ -49,7 +49,11 @@ function CreateBoardModal({ onCreate }: CreateBoardModalProps) {
 
             <div className="modal-buttons"> 
               <button type="submit" id="modal-button"> <PiPlus /> Create Board </button>
-              <Button id="modal-button" variant="outline" > <RxCross2/> Exit </Button>
+              
+             <Dialog.Close>
+              <Button id="modal-button" variant="outline">
+                 <RxCross2/> Exit </Button>
+              </Dialog.Close> 
             </div>
 
           </form>
