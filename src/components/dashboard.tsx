@@ -1,4 +1,3 @@
-import { BiPlus } from "react-icons/bi";
 import { MdOutlineGridView, MdOutlinePassword } from "react-icons/md";
 import { LuTable2 } from 'react-icons/lu';
 
@@ -6,7 +5,7 @@ import type { WhiteboardCollection } from '../Types.tsx';
 
 import WhiteboardCard from './WhiteboardCard.tsx';
 import { useState } from 'react';
-
+import CreateBoardModal from './create-board-modal.tsx';
 
 // later down the line 
 // - switch over to zustand
@@ -41,6 +40,7 @@ import { useState } from 'react';
 function Dashboard(){
 
   const [searchTerm, setSearchTerm] = useState('');
+  
   const [boards, setBoards] = useState<WhiteboardCollection>(() => {
 
     const SavedBoards = localStorage.getItem('whiteboardsArray');
@@ -49,6 +49,7 @@ function Dashboard(){
       : defaultBoards;
 
   });
+
 
   function GenerateRandomColor(): string {
     return `hsla(${Math.floor(360 * Math.random())}, 100%, 82%, 0.8)`;
@@ -60,14 +61,13 @@ function Dashboard(){
 
     });
 
-
-   function CreateWhiteboard(){
+   function CreateWhiteboard(title: string, description: string){
 
     const newBoard = {
 
       id: crypto.randomUUID(),
-      title: 'generated-title',
-      description: 'generated-desc',
+      title,
+      description,
       color: GenerateRandomColor(),
       boardURL: `/whiteboard/${Date.now()}`,
     };
@@ -86,8 +86,8 @@ function Dashboard(){
     
    }
 
-  return (
-    <section className="dashboard-container">
+   return (
+     <section className="dashboard-container">
 
       <div className="dashboard">
     
@@ -103,7 +103,8 @@ function Dashboard(){
 
           <div className='toolbar-left'>
 
-          <button onClick={() => CreateWhiteboard()}> <BiPlus /> Create a new workspace </button>
+          <CreateBoardModal onCreate={CreateWhiteboard} />
+
           <button> <MdOutlinePassword /> Join a workspace via a code </button>
           <input 
           type="search" 
@@ -130,15 +131,20 @@ function Dashboard(){
       <div className="whiteboards">
 
         <div className="whiteboard-grid">
-
-    
-        {filteredBoards.map((board) => (
-
-
-        <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard}  />
-
-        ))}
         
+        {filteredBoards.length === 0 ? (
+          <div className="no-results">
+          <span> No matching boards with the name <span id="highlight-text">"{searchTerm}"</span> found. </span>
+          <span> Try searching for something else.</span> 
+          </div>
+        ):(
+
+        filteredBoards.map((board) => (
+        <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard}  />
+        ))
+          
+        )}
+
         </div>
 
        </div>
@@ -146,7 +152,6 @@ function Dashboard(){
       </div>
 
       </div>
-
 
     </section>
   )

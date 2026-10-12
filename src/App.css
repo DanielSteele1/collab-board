@@ -39,8 +39,110 @@ body {
   color: var(--gray-12);
 }
 
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: rgba(7, 5, 12, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+
+  width: fit-content;
+  overflow-y: hidden;
+  padding: 20px;
+  border: 0px;
+  border-radius: 10px;
+  background: #0f0e13;
+  color: var(--text-color);
+  font-family: 'Google Sans Flex', sans-serif;
+}
+
+.modal-title, .modal-description{
+  display: block;
+  margin: 0;
+}
+
+.modal-title{
+  color: var(--text-color);
+  font-size: 1.5rem;
+  font-weight: 450;
+  line-height: 1.25;
+}
+
+.modal-description{
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.fieldset{
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 9px;
+  margin: 8px 0 0;
+  width: 100%;
+  font-family: 'Google Sans Flex', sans-serif;
+}
+
+.fieldset .label{
+  margin-top: 8px;
+  color: #e8e1ef;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.board-description-input,
+.board-title-input{
+  min-height: 40px;
+  padding: 5px !important;
+  margin-left: 5px;
+  border-radius: 9px !important;
+  background: #211d29 !important;
+  color: #fff !important;
+}
+
+.board-description-input input,
+.board-title-input input{
+  color: var(--color-panel);
+}
+
+.modal-buttons{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+#modal-button{
+  margin: 0;
+  min-height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.0rem;
+  font-weight: 400;
+}
+
+
 a{
   text-decoration: none;
+}
+
+#highlight-text{
+  color:#a560ff;
 }
 
 button{
@@ -125,6 +227,10 @@ button:hover{
   font-size: 1.1rem;
   margin: 0 6px;
   text-decoration: none;
+}
+
+.whiteboard-title{
+  text-transform: capitalize;
 }
 
 .nav-item{
@@ -495,6 +601,7 @@ margin-top: 20px;
 .whiteboard-subheading{
   font-size: 1.0rem;
   color: gray;
+  align-items: left;
 }
 
 .whiteboard-canvas{
@@ -526,7 +633,30 @@ margin-top: 20px;
   font-size: 0.8rem;
 }
 
+.no-results{
+  width: 100%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.no-results-icon{
+
+  display: flex;
+  font-size: 3.0rem;
+
+}
+
 @media(min-width: 300px) and (max-width: 750px) {
+
+  .modal{
+    width: 80%;
+    height: fit-content;
+    padding: 15px;
+  }
 
   .navigation-container{
     
@@ -535,10 +665,6 @@ margin-top: 20px;
     width: 100%;
     align-items: center;
     justify-content: center;
-  }
-
-  .navigation{
-    
   }
 
   .dashboard-container{
@@ -573,6 +699,93 @@ margin-top: 20px;
   .switch-views{
    flex-direction: row;
    margin: 10px;
+  }
+
+  .no-results{
+    width: 100%;
+    height: 200px;
+    display: flex;
+
+  }
+
+.create-board-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .create-board-dialog{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1001;
+    width: min(440px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    padding: 24px;
+    border: 1px solid var(--gray-6);
+    border-radius: 12px;
+    background: var(--gray-2);
+    color: var(--gray-12);
+    text-align: left;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+  }
+
+  .create-board-title{
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .create-board-description{
+    display: block;
+    margin: 8px 0 20px;
+    color: var(--gray-11);
+  }
+
+  .create-board-form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .create-board-form label{
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .create-board-form input,
+  .create-board-form textarea{
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-7);
+    border-radius: 8px;
+    background: var(--gray-1);
+    color: var(--gray-12);
+    font: inherit;
+  }
+
+  .create-board-form textarea{
+    resize: vertical;
+  }
+
+  .create-board-actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .create-board-actions button{
+    margin: 0;
+  }
+
+  .create-board-actions .create-board-cancel{
+    border: 1px solid var(--gray-7);
+    background: transparent;
+    color: var(--gray-12);
   }
 
 }

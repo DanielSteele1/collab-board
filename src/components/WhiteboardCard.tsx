@@ -13,7 +13,6 @@ interface WhiteboardCardProps {
 function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
 
     return (
-
         <div className="whiteboard">
             <div className="whiteboard-img" style={{ backgroundColor: board.color}}>
                 <button className="delete-button" onClick={() => onDelete(board.id)}> <BiTrash /> Delete Item </button>
@@ -24,7 +23,7 @@ function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
             </div>
             <Link to={board.boardURL} className="whiteboard-title">
 
-               <span> {board.title} </span>
+               <span className="whitboard-title"> {board.title} </span>
                <span className="whiteboard-subheading"> {board.description} </span>
             </Link>
           </div>
