@@ -1,7 +1,11 @@
 "use client";
 
-import {useStorage} from "@liveblocks/react/suspense";
+import { LiveObject } from "@liveblocks/client"
+import {useStorage, useMutation} from "@liveblocks/react/suspense";
 import { useEffect, useState} from "react";
+import Toolbar from "./Toolbar";
+
+const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
 
 const BOX_SIZE = 100;
 
@@ -29,7 +33,29 @@ export function Canvas() {
     }
   }, [selectedShapeId, shapes]);
 
+  const addShape = useMutation(({ storage }) => {
+    const id = crypto.randomUUID();
+    const fill = COLORS[Math.floor(Math.random() * COLORS.length)] ?? "#f59e0b";
+
+    storage.get("shapes").set(
+        id,
+        new LiveObject({
+            x: 80 + Math.round(Math.random() * 240),
+            y: 100 + Math.round(Math.random() * 240),
+            fill,
+        })
+    );
+
+    return id;
+  }, []);
+
+  const deleteShape = useMutation(({ storage }, id: string) => {
+    storage.get("shapes").delete(id);
+  }, []);
+
   return (
+    <div>
+        <Toolbar addShape={addShape} deleteShape={deleteShape} selectedShapeID={selectedShapeId}/>
     <div
       aria-label="Collaborative canvas"
       onPointerDown={(event) => {
@@ -58,7 +84,7 @@ export function Canvas() {
             height: BOX_SIZE,
             border:
               selectedShapeId === id
-                ? "3px solid #2563eb"
+                ? "3px solid #A259FF"
                 : "3px solid transparent",
             borderRadius: 12,
             background: shape.fill,
@@ -67,6 +93,7 @@ export function Canvas() {
           }}
         />
       ))}
+     </div>
     </div>
   );
 }

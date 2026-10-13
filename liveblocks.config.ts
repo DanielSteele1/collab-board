@@ -24,7 +24,7 @@ declare global {
       // Example, a conflict-free list
       // animals: LiveList<string>;
 
-      Shape: LiveMap<string, LiveObject<Shape>>;
+      shapes: LiveMap<string, LiveObject<Shape>>;
 
     };
 

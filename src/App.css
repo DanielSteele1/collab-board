@@ -650,7 +650,32 @@ margin-top: 20px;
   margin-right: 10px;
 }
 
+.loader{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+  font-size: 1.8rem;
+}
 
+.room-loading{
+  padding: 10px;
+  margin: 10px;
+  height: 4px;
+  width: 50%;
+  --c:no-repeat linear-gradient(#A259FF 0 0);
+  background: var(--c),var(--c),#d7b8fc;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
+}
+@keyframes l16 {
+  0%   {background-position:-150% 0,-150% 0}
+  66%  {background-position: 250% 0,-150% 0}
+  100% {background-position: 250% 0, 250% 0}
+}
 
 .table-toggle,
 .grid-toggle{
@@ -713,6 +738,58 @@ margin-top: 20px;
 .table-description{
   font-size: 1.2rem;
 }
+
+.whiteboard-toolbar{
+
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 70px;
+  margin: 20px;
+  padding: 5px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  background-color: var(--color-background);
+}
+
+.wb-toolbar-left,
+.wb-toolbar-right{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#wb-button-back > button {
+  background: none !important;
+
+  font-size: 1.5rem;
+}
+
+#wb-button-back > button:hover {
+  color: #A259FF;
+}
+
+.wb-toolbar-left>button,
+.wb-toolbar-right>button{
+  margin-left: 10px;
+  height: 60px;
+  width: 60px;
+  background: none !important;
+  color: var(--text-color);
+  font-size: 1.5rem;
+}
+
+.wb-toolbar-left>button:hover,
+.wb-toolbar-right>button:hover{
+  color: #A259FF !important;
+}
+
 
 @media(max-width: 750px) {
 
