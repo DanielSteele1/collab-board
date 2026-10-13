@@ -1,14 +1,16 @@
 
+import Room from './Room';
+import { Canvas } from './Canvas';
+
 function Whiteboard() {
 
     return (
 
         <section className="whiteboard-container">
 
-            <canvas className="whiteboard-canvas">
-
-
-            </canvas>
+                <Room>
+                    <Canvas />
+                </Room> 
         </section>
     )
 }

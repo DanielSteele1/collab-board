@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@liveblocks/react": "^3.24.1",
+    "@liveblocks/client": "^3.24.3",
+    "@liveblocks/react": "^3.24.3",
     "@radix-ui/themes": "^3.3.0",
     "@vercel/analytics": "^2.0.1",
     "gsap": "^3.15.0",

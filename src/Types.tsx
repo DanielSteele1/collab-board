@@ -1,5 +1,5 @@
 
-export interface Whiteboard {
+export interface WhiteboardType {
   id: string,
   title: string;
   description: string;
@@ -7,4 +7,4 @@ export interface Whiteboard {
   boardURL: string;
 }
 
-export type WhiteboardCollection = Whiteboard[];
+export type WhiteboardCollection = WhiteboardType[];

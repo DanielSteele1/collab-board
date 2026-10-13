@@ -36,7 +36,6 @@ function App() {
   
   });
 
-
   return (
     <section className="main-container">
       <Theme className="app-theme" accentColor='purple' appearance={isLightOn ? 'light' : 'dark'}> 
@@ -50,7 +49,7 @@ function App() {
       <Route path='/' element={<Home />}> Home </Route>
       <Route path='/login' element={<Login />}> Login </Route>
       <Route path='/Dashboard' element={<Dashboard />}> Dashboard </Route>
-      <Route path='/Whiteboard' element={<Whiteboard />}> Whiteboard </Route>
+      <Route path='/Whiteboard/:boardId' element={<Whiteboard />}> Whiteboard </Route>
       <Route path='*' element={<FourOFour />}>  </Route>
 
       </Routes>

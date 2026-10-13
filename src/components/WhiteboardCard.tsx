@@ -1,12 +1,12 @@
 
 
 import { BiTrash } from "react-icons/bi";
-import type {Whiteboard} from "../Types";
+import type { WhiteboardType } from "../Types";
 import { Link } from "react-router";
 
 interface WhiteboardCardProps {
 
-    board: Whiteboard; //inherit the already established type structure
+    board: WhiteboardType; //inherit the already established type structure
     onDelete: (boardId: string) => void;
 }
 

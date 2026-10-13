@@ -10,7 +10,6 @@ import CreateBoardModal from './create-board-modal.tsx';
 
 // later down the line 
 // - switch over to zustand
-// - look into how to generate a unique id for each board
 // - actually look into the whiteboard with liveblocks. 
 
   const defaultBoards: WhiteboardCollection = [
@@ -151,8 +150,6 @@ function Dashboard(){
             <WhiteboardTable boards={filteredBoards} onDelete={DeleteWhiteboard} />        
           )
       }
-
- 
 
        </div>
 
