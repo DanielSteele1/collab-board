@@ -118,7 +118,7 @@ function Dashboard(){
 
           <div className="switch-views">
             <button className="grid-toggle" onClick={ () => setView(prev => !prev)}>
-             {view ? (<div> <LuTable2 /> Table View </div>) : (<div> <MdOutlineGridView /> Grid View </div>) }
+             {view ? (<div className="view-btn"> <LuTable2 /> Table View </div>) : (<div className="view-btn"> <MdOutlineGridView /> Grid View </div>) }
             </button>
           </div>
 
