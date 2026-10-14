@@ -11,7 +11,6 @@ import {
 
 import type { ReactNode } from "react";
 
-
 interface RoomProps{
 
     boardId: string;
@@ -21,9 +20,10 @@ interface RoomProps{
  function Room({ children, boardId}: RoomProps) {
 
     return (
-        <LiveblocksProvider publicApiKey="pk_dev_QY3H17XvLJO1Ex7XZOMUy7lXlIeWFam-j_LKFH4ZpZabmjzN-fdtHuX3xzbos2AZ" throttle={16}>
+    <LiveblocksProvider publicApiKey="pk_dev_QY3H17XvLJO1Ex7XZOMUy7lXlIeWFam-j_LKFH4ZpZabmjzN-fdtHuX3xzbos2AZ" throttle={16}>
 
        <RoomProvider
+       initialPresence={{ cursor: null, selectShapeId: null}}
        id={boardId}
        initialStorage={{
         shapes: new LiveMap([

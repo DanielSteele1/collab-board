@@ -17,6 +17,10 @@ declare global {
     Presence: {
       // Example, real-time cursor coordinates
       // cursor: { x: number; y: number };
+
+      cursor: {x: number; y: number} | null;
+      selectShapeId: string | null ;
+
     };
 
     // The Storage tree for the room, for room.getStorage, room.subscribe(storageItem), etc.

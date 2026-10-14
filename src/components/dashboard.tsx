@@ -84,7 +84,6 @@ function Dashboard(){
     const updatedBoards = boards.filter((board) => board.id !== boardId);
     setBoards(updatedBoards);
     localStorage.setItem('whiteboardsArray', JSON.stringify(updatedBoards));
-    
    }
 
    return (
