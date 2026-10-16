@@ -2,10 +2,13 @@
 
 import { LiveObject } from "@liveblocks/client"
 import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence,} from "@liveblocks/react/suspense";
-import { type PointerEvent, useEffect, useRef } from "react";
+import { type PointerEvent, useEffect, useRef, useState } from "react";
 
-
+import Sidebar from './Sidebar';
 import Toolbar from "./Toolbar";
+
+import panzoom from "panzoom";
+
 import { PiCursorFill } from "react-icons/pi";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
@@ -30,7 +33,6 @@ type Shape = {
 
 export function Canvas() {
 
-
   // sync shapes from room storage, then update client
 
   const shapes = useStorage((root) => {
@@ -50,13 +52,13 @@ export function Canvas() {
 
 
   useEffect(() => {
+
+
     if( selectShapeId && shapes[selectShapeId] === undefined ) {
       updateMyPresence({ selectShapeId })
     }
    
   }, [selectShapeId, shapes, updateMyPresence]);
-
-  
 
   // add a shape
 
@@ -85,7 +87,29 @@ export function Canvas() {
   // drag a shape around
 
   const canvasRef = useRef<HTMLDivElement>(null);
+  const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
+  const isPanModeRef = useRef(false);
+
+  const [Indicator, setIndicator] = useState(false);
+
   const dragRef = useRef<Drag | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const instance = panzoom(canvas, {
+      maxZoom: 1,
+      minZoom: 0.1,
+    });
+    instance.pause();
+    panzoomRef.current = instance;
+
+    return () => {
+      instance.dispose();
+      panzoomRef.current = null;
+    };
+  }, []);
 
   // when moving a shape, mutate a shapes X and Y location
 
@@ -109,6 +133,7 @@ export function Canvas() {
 
   ) {
 
+    if (isPanModeRef.current) return;
     if(event.button !== 0 || dragRef.current) return;
 
     const bounds = canvasRef.current?.getBoundingClientRect();
@@ -162,9 +187,39 @@ export function Canvas() {
   }
 
 
+  function pausePanZoom() {
+
+    setIndicator(false);
+
+    isPanModeRef.current = false;
+    panzoomRef.current?.pause();
+  }
+
+  function resumePanZoom() {
+
+    if(canvasRef.current) {
+      canvasRef.current.style.cursor = "grabbing";
+    }
+   
+    setIndicator(true);
+
+    isPanModeRef.current = true;
+    panzoomRef.current?.resume();
+  }
+
+
   return (
     <div>
-        <Toolbar addShape={addShape} deleteShape={deleteShape} selectedShapeID={selectShapeId}/>
+        <Toolbar
+          pausePanZoom={pausePanZoom}
+          resumePanZoom={resumePanZoom}
+          addShape={addShape}
+          deleteShape={deleteShape}
+          selectedShapeID={selectShapeId}
+          indicator={Indicator}
+        />
+        <Sidebar />
+
     <div
       aria-label="Collaborative canvas"
       ref={canvasRef}
@@ -182,6 +237,8 @@ export function Canvas() {
       }}
 
       className="whiteboard-canvas"
+
+
     >
       {Object.entries(shapes ?? {}).map(([id, shape]) => {
 

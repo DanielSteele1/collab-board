@@ -4,15 +4,19 @@ import { GrCursor } from "react-icons/gr";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { Link } from "react-router";
 import { FaRegHandPaper } from "react-icons/fa";
+import { PiHandGrabbingBold } from "react-icons/pi";
 
 
 interface ToolbarProps {
         deleteShape: (id: string) => void;
         addShape: () => void;    
         selectedShapeID: string | null;
+        pausePanZoom: () => void;
+        resumePanZoom: () => void;
+        indicator: boolean;
 }
 
-function Toolbar({addShape, deleteShape, selectedShapeID}:ToolbarProps) {
+function Toolbar({indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
 
     return(
 
@@ -20,11 +24,11 @@ function Toolbar({addShape, deleteShape, selectedShapeID}:ToolbarProps) {
 
           <div className="wb-toolbar-left">
          
-            <button>
+            <button onClick={pausePanZoom}>
              <GrCursor /> 
             </button>
 
-            <button>
+            <button onClick={resumePanZoom}>
                 <FaRegHandPaper/>
             </button>
 
@@ -39,6 +43,10 @@ function Toolbar({addShape, deleteShape, selectedShapeID}:ToolbarProps) {
             <button>
              <BiText />
             </button>
+          </div>
+
+          <div className="wb-toolbar-mid">
+            {indicator ? <span className="grab-mode-indicator"> <PiHandGrabbingBold />  Grab mode enabled </span> : <>  </>}
           </div>
 
           <div className="wb-toolbar-right">

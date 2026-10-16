@@ -215,8 +215,7 @@ button:hover{
   justify-content: center;
   font-size: 1.3rem;
   font-weight: 350;
-  color: white;
-  background-color: #A259FF;
+  color: #A259FF;
   padding: 5px 10px;
   border-radius: 10px;
 }
@@ -230,7 +229,7 @@ button:hover{
 }
 
 .title{
-  color: white;
+  color: var(--text-color) !important;
   font-family: 'Google Sans Flex', sans-serif;
   font-weight: 450;
   font-size: 1.1rem;
@@ -616,13 +615,14 @@ margin-top: 20px;
 
 .whiteboard-canvas{
   display: flex;
-  height: 100dvh;
+  height: 500dvh;
   width: 100%;
+
   position:fixed;
   top: 0;
   left: 0;
   z-index: -1;
-    --s: 450px;
+    --s: 250px;
 
     --_g: #ffffff00 90deg,rgb(49, 41, 58) 0;
   background: 
@@ -765,6 +765,13 @@ margin-top: 20px;
   justify-content: center;
 }
 
+.grab-mode-indicator{
+  color: #A259FF;
+  font-family: 'Google sans flex', sans-serif;
+  font-size: 1.0rem;
+  font-weight: 350;
+}
+
 #wb-button-back > button {
   background: none !important;
 
@@ -788,6 +795,88 @@ margin-top: 20px;
 .wb-toolbar-left>button:hover,
 .wb-toolbar-right>button:hover{
   color: #A259FF !important;
+}
+
+.sidebar,
+.sidebar-collapsed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-color: var(--color-background);
+  z-index: 10;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  height: 40dvw;
+  margin: 20px;
+  border-radius: 8px;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #A259FF;
+
+}
+
+.sidebar-collapsed {
+  width: 60px;
+  padding: 10px;
+}
+
+.sidebar {
+  width: fit-content;
+  padding: 15px;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-title {
+  display: flex;
+  font-size: 1.2rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  font-family: 'Google Sans flex', sans-serif;
+  padding: 10px;
+}
+
+.sidebar-collapse svg {
+  font-size: 1.0rem;
+}
+
+.sidebar-collapse {
+  background: none !important;
+  color: #A259FF;
+  margin: 0;
+  padding: 5px;
+}
+
+.sidebar-board {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  height: 45px;
+  font-family: "Google sans flex", sans-serif;
+  font-size: 1.0rem;
+  padding: 10px;
+  color: var(--text-color);
+}
+
+.sidebar-board:hover {
+  text-decoration: underline;
+  color: #a560ff;
+}
+
+.sidebar-color {
+  height: 10px;
+  width: 10px;
+  border-radius: 12px;
 }
 
 @media(max-width: 750px) {
