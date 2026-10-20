@@ -7,6 +7,7 @@ import WhiteboardCard from './WhiteboardCard.tsx';
 import WhiteboardTable from './whiteboard-table.tsx';
 import { useState } from 'react';
 import CreateBoardModal from './create-board-modal.tsx';
+import { FaFilter } from "react-icons/fa";
 
 // later down the line 
 // - switch over to zustand
@@ -106,6 +107,7 @@ function Dashboard(){
           <CreateBoardModal onCreate={CreateWhiteboard} />
 
           <button> <MdOutlinePassword /> Join a workspace via a code </button>
+          
           <input 
           type="search" 
           placeholder="Search for a whiteboard..." 
@@ -115,8 +117,13 @@ function Dashboard(){
           </div>
 
           <div className="switch-views">
+
+            <button className="grid-toggle">
+             <FaFilter />
+            </button>
+
             <button className="grid-toggle" onClick={ () => setView(prev => !prev)}>
-             {view ? (<div className="view-btn"> <LuTable2 /> Table View </div>) : (<div className="view-btn"> <MdOutlineGridView /> Grid View </div>) }
+             {view ? (<div className="view-btn"> <LuTable2 /> </div>) : (<div className="view-btn"> <MdOutlineGridView /> </div>) }
             </button>
           </div>
 

@@ -21,8 +21,11 @@
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",
     "react-router": "^8.4.0",
+    "react-toast": "^1.0.3",
+    "react-tooltip": "^6.0.9",
     "socket.io": "^4.8.3",
-    "tldraw": "^5.5.2"
+    "tldraw": "^5.5.2",
+    "toastify-js": "^1.12.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

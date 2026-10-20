@@ -69,8 +69,8 @@ export function Canvas() {
     storage.get("shapes").set(
         id,
         new LiveObject({
-            x: 80 + Math.round(Math.random() * 240),
-            y: 100 + Math.round(Math.random() * 240),
+            x: 80 + Math.round(Math.random() * 40),
+            y: 200 + Math.round(Math.random() * 240),
             fill,
         })
     );
@@ -99,7 +99,7 @@ export function Canvas() {
     if (!canvas) return;
 
     const instance = panzoom(canvas, {
-      maxZoom: 1,
+      maxZoom: 2,
       minZoom: 0.1,
     });
     instance.pause();

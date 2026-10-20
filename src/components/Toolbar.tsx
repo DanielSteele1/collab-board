@@ -6,6 +6,9 @@ import { Link } from "react-router";
 import { FaRegHandPaper } from "react-icons/fa";
 import { PiHandGrabbingBold } from "react-icons/pi";
 
+import "toastify-js/src/toastify.css";
+
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 interface ToolbarProps {
         deleteShape: (id: string) => void;
@@ -20,27 +23,28 @@ function Toolbar({indicator, pausePanZoom, resumePanZoom, addShape, deleteShape,
 
     return(
 
+        <>
         <div className="whiteboard-toolbar">
 
           <div className="wb-toolbar-left">
          
-            <button onClick={pausePanZoom}>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Select mode" onClick={pausePanZoom}>
              <GrCursor /> 
             </button>
 
-            <button onClick={resumePanZoom}>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Grab mode" onClick={resumePanZoom}>
                 <FaRegHandPaper/>
             </button>
 
-            <button onClick={addShape}>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add a shape" onClick={addShape}>
              <IoShapesOutline/>  
             </button>
 
-            <button>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Draw mode">
              <BiBrush /> 
             </button>
 
-            <button>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add text">
              <BiText />
             </button>
           </div>
@@ -52,25 +56,27 @@ function Toolbar({indicator, pausePanZoom, resumePanZoom, addShape, deleteShape,
           <div className="wb-toolbar-right">
 
             <Link to="/dashboard" id="wb-button-back">
-            <button>
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Dashboard">
               <MdOutlineDashboardCustomize /> 
             </button>
             </Link>
 
-            <button id="wb-button-undo">
+            <button id="wb-button-undo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo">
               <BiUndo />
             </button>
 
-            <button id="wb-button-redo">
+            <button id="wb-button-redo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Redo">
               <BiRedo /> 
             </button>
 
-            <button id="wb-button-delete" onClick={() => selectedShapeID && deleteShape(selectedShapeID)}>
+            <button id="wb-button-delete" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Delete selected shape" onClick={() => selectedShapeID && deleteShape(selectedShapeID)}>
               <BiTrash />
             </button>
 
           </div>
         </div>
+        <ReactTooltip id="toolbar-tooltip" place="top" />
+        </>
     )
 }
 

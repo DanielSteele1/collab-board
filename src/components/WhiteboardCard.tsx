@@ -15,16 +15,22 @@ function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
     return (
         <div className="whiteboard">
             <div className="whiteboard-img" style={{ backgroundColor: board.color}}>
-                <button className="delete-button" onClick={() => onDelete(board.id)}> <BiTrash /> Delete Item </button>
-
-                <div className="whiteboard-icon"> 
-                    
+                <div className="board-preview" aria-hidden="true">
+                    <span className="board-preview-note board-preview-note-one" />
+                    <span className="board-preview-note board-preview-note-two" />
+                    <span className="board-preview-note board-preview-note-three" />
                 </div>
+                <button
+                    className="delete-button"
+                    aria-label={`Delete ${board.title} board`}
+                    onClick={() => onDelete(board.id)}
+                >
+                    <BiTrash /> Remove
+                </button>
             </div>
             <Link to={board.boardURL} className="whiteboard-title">
-
-               <span className="whitboard-title"> {board.title} </span>
-               <span className="whiteboard-subheading"> {board.description} </span>
+               <span className="whiteboard-card-title">{board.title}</span>
+               <span className="whiteboard-subheading">{board.description || "A space to make something together."}</span>
             </Link>
           </div>
     );

@@ -1,4 +1,3 @@
-import { CiPen } from "react-icons/ci";
 import { AiOutlineBlock } from "react-icons/ai";
 import { Link } from "react-router";
 import { FiUser } from "react-icons/fi";
@@ -7,6 +6,8 @@ import { HiOutlineMoon } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
+import { GrCursor } from "react-icons/gr";
+import { MdOutlineDraw } from "react-icons/md";
 
 interface NavigationProps {
   toggleLight: React.MouseEventHandler<HTMLButtonElement>;
@@ -22,14 +23,14 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
     <section className="navigation-container">
       <div className="navigation">
         <Link className="nav-logo" to="/">
-            <AiOutlineBlock />
+            <MdOutlineDraw />
             <span className="title">Collaborative Whiteboard</span>
         </Link>
 
         <div className="nav-items">
 
             <Link className="nav-item" id="workspace-button" to="/dashboard">
-              <CiPen /> Create A Workspace
+              <MdOutlineDraw /> Create a Workspace
             </Link>
 
             <Link className="nav-item" id="login-button" to="/login">
@@ -80,7 +81,7 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
             hidden={!isOpen}
         >
             <Link className="nav-item" to="/dashboard" onClick={closeMenu}>
-              <CiPen /> Create A Workspace
+              <GrCursor /> Create A Workspace
             </Link>
 
             <Link className="nav-item" to="/login" onClick={closeMenu}>
