@@ -11,7 +11,7 @@ import FourOFour from './components/FourOFour';
 import "@radix-ui/themes/styles.css";
 import {Theme} from "@radix-ui/themes";
 import { useEffect, useState } from 'react';
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
 
