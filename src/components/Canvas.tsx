@@ -9,26 +9,10 @@ import Toolbar from "./Toolbar";
 
 import panzoom from "panzoom";
 
-
 import { PiCursorFill } from "react-icons/pi";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
 const BOX_SIZE = 100;
-
-
-// goals for today:
-
-// - get a stroke object working, using the lib we found.
-// - make sure you can change the color of the stroke. you'd need a tooltip for this
-// - filter alphebetically and by creation date.
-// - if finished with those, and this is a big if, then try and implement buttons for zoom. 
-
-
-// goals for friday
-
-// - if done with the rest, start thinking about how to store the stroke live.
-// - then setup supabase connection.
-// - chillout task for the week: improve upon the UI. 
 
 // types
 
@@ -229,8 +213,6 @@ export function Canvas() {
     isPanModeRef.current = true;
     panzoomRef.current?.resume();
   }
-
-
 
   return (
     <>

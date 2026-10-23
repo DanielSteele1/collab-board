@@ -1,4 +1,3 @@
-import { AiOutlineBlock } from "react-icons/ai";
 import { Link } from "react-router";
 import { FiUser } from "react-icons/fi";
 import { LiaSun } from "react-icons/lia";
@@ -51,7 +50,7 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
       <div className="hamburger-nav">
         <div className="hamburger-nav-bar">
             <Link className="nav-logo" to="/" onClick={closeMenu}>
-              <AiOutlineBlock />
+              <MdOutlineDraw />
               <span className="title">Collaborative Whiteboard</span>
             </Link>
 

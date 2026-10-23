@@ -16,34 +16,35 @@ import CreateBoardModal from './create-board-modal.tsx';
 import { DropdownMenu } from "radix-ui";
 import { BiX } from "react-icons/bi";
 
-// later down the line 
-// - switch over to zustand
-
+  const moodboardId = crypto.randomUUID();
+  const ideasId = crypto.randomUUID();
+  const projectsId = crypto.randomUUID();
 
   const defaultBoards: WhiteboardCollection = [
   {
-    id: '0',
+    id: ideasId,
     title: "Ideas",
     description: "A place for brainstorms",
     color:  "#c681f5",
-    boardURL: "/whiteboard/example-board-0",
-    createdAt: Date.parse("2020-12-14"),
+    boardURL: `/whiteboard/${ideasId}`,
+    createdAt: Date.parse("2026-02-26"),
+
   },
   {
-    id: '1',
+    id: projectsId,
     title: "Project Planning",
     description: "Plan tasks and milestones",
     color: "#4F8EF7",
-    boardURL: "/whiteboard/example-board-1",
-    createdAt: Date.parse('2021-12-14'),
+    boardURL: `/whiteboard/${projectsId}`,
+    createdAt: Date.parse('2025-06-14'),
   },
   {
-    id: '2',
+    id: moodboardId,
     title: "Moodboard",
     description: "Moodboard",
     color: "#ddab4e",
-    boardURL: "/whiteboard/example-board-2",
-    createdAt: Date.parse('2021-12-14'),
+    boardURL: `/whiteboard/${moodboardId}`,
+    createdAt: Date.parse('2024-12-14'),
   },
 
 ];
@@ -57,7 +58,6 @@ function Dashboard(){
 
   // possible filters
 
-
   const [sortBy, setSortBy] = useState<"A-Z" | "New" | "Old" | "Color" | "None">("None");
   const [boards, setBoards] = useState<WhiteboardCollection>(() => {
 
@@ -65,14 +65,11 @@ function Dashboard(){
     return SavedBoards
       ? JSON.parse(SavedBoards) as WhiteboardCollection
       : defaultBoards;
-
   });
 
   function GenerateRandomColor(): string {
     return `hsla(${Math.floor(360 * Math.random())}, 100%, 82%, 0.8)`;
   }
-
-     // finish this today. 
 
     const filteredBoards = boards.filter((board) => {
 
@@ -81,13 +78,15 @@ function Dashboard(){
 
    function CreateWhiteboard(title: string, description: string){
 
+    const boardId = crypto.randomUUID();
+
     const newBoard = {
 
-      id: crypto.randomUUID(),
+      id: boardId,
       title,
       description,
       color: GenerateRandomColor(),
-      boardURL: `/whiteboard/${Date.now()}`,
+      boardURL: `/whiteboard/${boardId}`,
       createdAt: Date.now(),
     };
 
@@ -103,6 +102,28 @@ function Dashboard(){
     setBoards(updatedBoards);
     localStorage.setItem('whiteboardsArray', JSON.stringify(updatedBoards));
    }
+
+   // sort each board 
+
+    filteredBoards.sort((a ,b) => {
+
+          switch(sortBy) {
+
+            case "A-Z":
+               return a.title.localeCompare(b.title);
+
+            case "New":
+              return b.createdAt - a.createdAt;
+
+            case "Color":
+              return a.color.localeCompare(b.color);
+
+            case "Old":
+              return a.createdAt - b.createdAt;
+
+            case "None":
+              return 0;
+    }})
 
    return (
      <section className="dashboard-container">
@@ -179,40 +200,16 @@ function Dashboard(){
           </div>
          ):(
 
-         filteredBoards.sort((a ,b) => {
-
-          switch(sortBy) {
-
-            case "A-Z":
-               return a.title.localeCompare(b.title);
-
-            case "New":
-              return b.createdAt - a.createdAt;
-
-            case "Color":
-              return a.color.localeCompare(b.color);
-
-            case "Old":
-              return a.createdAt - b.createdAt;
-
-            case "None":
-              return 0;
-            default:
-              return 0;
-          }
-
-         })
-         .map((board) => (
+         filteredBoards.map((board) => (
          <WhiteboardCard key={board.id} board={board} onDelete={DeleteWhiteboard} />
          ))
           
          )}
 
         </div>
-
         ) : (
             <WhiteboardTable boards={filteredBoards} onDelete={DeleteWhiteboard} />        
-          )
+        )
       }
 
        </div>

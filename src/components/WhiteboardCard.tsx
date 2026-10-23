@@ -17,7 +17,6 @@ function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
 
     const createdDate = formatDistance(new Date(board.createdAt), new Date(), {addSuffix: true});
 
-
     return (
         <div className="whiteboard">
             <div className="whiteboard-img" style={{ backgroundColor: board.color}}>
