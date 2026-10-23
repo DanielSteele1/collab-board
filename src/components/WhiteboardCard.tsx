@@ -3,6 +3,9 @@
 import { BiTrash } from "react-icons/bi";
 import type { WhiteboardType } from "../Types";
 import { Link } from "react-router";
+import { MdDateRange } from "react-icons/md";
+
+import { formatDistance } from "date-fns";
 
 interface WhiteboardCardProps {
 
@@ -12,14 +15,13 @@ interface WhiteboardCardProps {
 
 function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
 
+    const createdDate = formatDistance(new Date(board.createdAt), new Date(), {addSuffix: true});
+
+
     return (
         <div className="whiteboard">
             <div className="whiteboard-img" style={{ backgroundColor: board.color}}>
-                <div className="board-preview" aria-hidden="true">
-                    <span className="board-preview-note board-preview-note-one" />
-                    <span className="board-preview-note board-preview-note-two" />
-                    <span className="board-preview-note board-preview-note-three" />
-                </div>
+
                 <button
                     className="delete-button"
                     aria-label={`Delete ${board.title} board`}
@@ -30,7 +32,11 @@ function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
             </div>
             <Link to={board.boardURL} className="whiteboard-title">
                <span className="whiteboard-card-title">{board.title}</span>
+               <div className="whiteboard-tray"> 
                <span className="whiteboard-subheading">{board.description || "A space to make something together."}</span>
+               <span className="whiteboard-createdAt"> <MdDateRange /> {createdDate} </span>
+               </div>
+             
             </Link>
           </div>
     );

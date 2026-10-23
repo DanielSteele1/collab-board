@@ -9,10 +9,26 @@ import Toolbar from "./Toolbar";
 
 import panzoom from "panzoom";
 
+
 import { PiCursorFill } from "react-icons/pi";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
 const BOX_SIZE = 100;
+
+
+// goals for today:
+
+// - get a stroke object working, using the lib we found.
+// - make sure you can change the color of the stroke. you'd need a tooltip for this
+// - filter alphebetically and by creation date.
+// - if finished with those, and this is a big if, then try and implement buttons for zoom. 
+
+
+// goals for friday
+
+// - if done with the rest, start thinking about how to store the stroke live.
+// - then setup supabase connection.
+// - chillout task for the week: improve upon the UI. 
 
 // types
 
@@ -33,6 +49,7 @@ type Shape = {
 
 export function Canvas() {
 
+
   // sync shapes from room storage, then update client
 
   const shapes = useStorage((root) => {
@@ -49,7 +66,6 @@ export function Canvas() {
 
   const others = useOthers();
   const updateMyPresence = useUpdateMyPresence();
-
 
   useEffect(() => {
 
@@ -101,7 +117,10 @@ export function Canvas() {
     const instance = panzoom(canvas, {
       maxZoom: 2,
       minZoom: 0.1,
+      bounds: true,
+      boundsPadding: 0.5,
     });
+
     instance.pause();
     panzoomRef.current = instance;
 
@@ -186,12 +205,16 @@ export function Canvas() {
     moveDrag(event);
   }
 
-
   function pausePanZoom() {
 
     setIndicator(false);
 
     isPanModeRef.current = false;
+
+    if(canvasRef.current) {
+      canvasRef.current.style.cursor ="pointer";
+    }
+
     panzoomRef.current?.pause();
   }
 
@@ -208,9 +231,11 @@ export function Canvas() {
   }
 
 
+
   return (
-    <div>
+    <>
         <Toolbar
+          
           pausePanZoom={pausePanZoom}
           resumePanZoom={resumePanZoom}
           addShape={addShape}
@@ -220,26 +245,26 @@ export function Canvas() {
         />
         <Sidebar />
 
-    <div
-      aria-label="Collaborative canvas"
-      ref={canvasRef}
+    <div className="whiteboard-viewport">
+      <div
+        aria-label="Collaborative canvas"
+        ref={canvasRef}
 
       onPointerMove={handleCanvasPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
       onPointerLeave={() => updateMyPresence({ cursor: null })}
       onLostPointerCapture={endDrag}
-
+      
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) {
           selectShape(null)
         }
       }}
 
-      className="whiteboard-canvas"
+        className="whiteboard-canvas"
 
-
-    >
+      >
       {Object.entries(shapes ?? {}).map(([id, shape]) => {
 
         const selectedByOther = others.some(
@@ -247,6 +272,8 @@ export function Canvas() {
         );
 
         return (
+          <>
+          
           <button
             key={id}
             type="button"
@@ -270,6 +297,9 @@ export function Canvas() {
               touchAction: "none",
             }}
           />
+
+
+          </>
         );
       })}
 
@@ -294,7 +324,8 @@ export function Canvas() {
         </div> ) : null
       )}
 
-     </div>
+      </div>
     </div>
+    </>
   );
 }
