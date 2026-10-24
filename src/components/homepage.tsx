@@ -1,9 +1,16 @@
 
-import { Link } from "react-router";
 import TextType from "../react-bits/TextType";
 import { AspectRatio, Card } from "@radix-ui/themes";
+import { MdOutlineDraw } from "react-icons/md";
 
 function Home() {
+
+
+  function StartAsGuest() {
+
+
+    window.location.href = "dashboard";
+  }
 
   return (
     <section className="homepage-container">
@@ -16,11 +23,12 @@ function Home() {
             </TextType>
 
            <div className="cta-homepage">
-            <Link to='./dashboard'> 
-            <button>
-              Sign up to start creating 
+            <span className="homepage-para"> Start creating and sharing your work today. No signup required.</span>
+            
+            <button onClick={() => StartAsGuest()}>
+            <MdOutlineDraw /> Create a new Workspace
             </button>
-             </Link>
+
              </div>
         </div>
 

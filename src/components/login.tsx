@@ -1,7 +1,7 @@
 import { Button } from "@radix-ui/themes";
-import { AiOutlineBlock } from "react-icons/ai";
 import { FiUser } from "react-icons/fi";
 import { GrGoogle } from "react-icons/gr";
+import { MdOutlineDraw } from "react-icons/md";
 
 function Login() {
 
@@ -14,9 +14,9 @@ function Login() {
 
       <span className="login-header">
 			<div className="logo"> 
-      <AiOutlineBlock />  
+      <MdOutlineDraw /> 
       </div> 
-       Login to start creating together..
+       <span> Login to start creating together.. </span>
 		  </span>
 
        <div className="login-buttons">

@@ -2,12 +2,15 @@
 
 import { LiveObject } from "@liveblocks/client"
 import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence,} from "@liveblocks/react/suspense";
-import { type PointerEvent, useEffect, useRef, useState } from "react";
+import { type PointerEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 
 import Sidebar from './Sidebar';
 import Toolbar from "./Toolbar";
 
 import panzoom from "panzoom";
+
+import { getStroke } from 'perfect-freehand'
+import { getSvgPathFromStroke } from '../utils'
 
 import { PiCursorFill } from "react-icons/pi";
 
@@ -15,24 +18,11 @@ const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
 const BOX_SIZE = 100;
 
 // types
-
-type Drag = {
-   pointerId: number;
-   shapeId: string;
-   offsetX: number;
-   offsetY: number;
-}
-
-type Shape = {
-  x: number;
-  y: number;
-  fill: string;
-};
+import type { FreehandPoint, Shape, Drag } from "../Types";
 
 // canvas function
 
 export function Canvas() {
-
 
   // sync shapes from room storage, then update client
 
@@ -43,6 +33,7 @@ export function Canvas() {
       ? (value as Record<string, Shape>)
       : {}) as Record<string, Shape>;
   });
+  const strokes = useStorage((root) => root.strokes);
 
   const selectShapeId = useSelf(
     (me) => me.presence.selectShapeId
@@ -52,7 +43,6 @@ export function Canvas() {
   const updateMyPresence = useUpdateMyPresence();
 
   useEffect(() => {
-
 
     if( selectShapeId && shapes[selectShapeId] === undefined ) {
       updateMyPresence({ selectShapeId })
@@ -84,13 +74,18 @@ export function Canvas() {
     storage.get("shapes").delete(id);
   }, []);
   
-  // drag a shape around
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
   const isPanModeRef = useRef(false);
 
   const [Indicator, setIndicator] = useState(false);
+
+  const [startDraw, setStartDraw] = useState(false);
+
+  // array of points where cursor is dragged when draw mode is enabled.
+
+  const [points, setPoints] = useState<FreehandPoint[]>([]);
 
   const dragRef = useRef<Drag | null>(null);
 
@@ -114,7 +109,14 @@ export function Canvas() {
     };
   }, []);
 
-  // when moving a shape, mutate a shapes X and Y location
+  //--------- store objecs into liveblocks for others to see -------------------
+
+  const saveStroke = useMutation(({ storage }, path: string) => {
+    storage.get("strokes").set(
+      crypto.randomUUID(),
+      new LiveObject({ path })
+    );
+  }, []);
 
   const moveShape = useMutation(
     ({ storage }, id: string, x: number, y: number) => {
@@ -128,12 +130,64 @@ export function Canvas() {
     updateMyPresence({ selectShapeId: id });
   }
 
+  // functions to draw on the canvas 
+
+  // getSvgPoint will track the location of the cusor when a user tries to draw. this resets
+  // your cursor location every time you draw, which solves the issue of having the canvas de-sync
+  // if a user grabs the canvas around then goes back to drawing.
+
+  function getSvgPoint(event: ReactPointerEvent<SVGSVGElement>): FreehandPoint | null {
+    const matrix = event.currentTarget.getScreenCTM();
+    if (!matrix) return null;
+
+    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(
+      matrix.inverse()
+    );
+    return [point.x, point.y, event.pressure];
+  }
+
+  function handlePointerDown(e: ReactPointerEvent<SVGSVGElement>) {
+    if (!startDraw || e.button !== 0) return;
+
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const point = getSvgPoint(e);
+    if (point) setPoints([point]);
+  }
+
+  function handlePointerUp(){
+    if (startDraw && pathData) {
+      saveStroke(pathData);
+    }
+
+    setPoints([]);
+  }
+
+  function handlePointerMove(e: ReactPointerEvent<SVGSVGElement>) {
+    if (!startDraw || e.buttons !== 1) return;
+
+    const point = getSvgPoint(e);
+    if (point) setPoints((previous) => [...previous, point]);
+  }
+
+  const stroke = getStroke(points, {
+
+    size: 16,
+    thinning: 0.5,
+    smoothing: 0.5,
+    streamline: 0.5,
+  });
+
+  // actual stroke 
+  const pathData = getSvgPathFromStroke(stroke);
+
+  // dragging
+
   function startDrag(
 
     event: PointerEvent<HTMLButtonElement>,
-    id:string,
-    shape: Readonly<Shape>
-
+    id: string,
+    shape: Readonly<Shape> 
   ) {
 
     if (isPanModeRef.current) return;
@@ -156,6 +210,7 @@ export function Canvas() {
     selectShape(id);
   }
 
+  // move a block
 
   function moveDrag(event: PointerEvent<HTMLDivElement>) {
 
@@ -176,6 +231,8 @@ export function Canvas() {
     }
   }
 
+  // move the cursor around the screen. updates liveblocks so you can see others cursors.
+
   function handleCanvasPointerMove(event: PointerEvent<HTMLDivElement>) {
 
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -189,9 +246,28 @@ export function Canvas() {
     moveDrag(event);
   }
 
+  // draw mode 
+
+  function enableDrawMode() {
+
+    setStartDraw(true);
+    setIndicator(false);
+
+    if(canvasRef.current) {
+    canvasRef.current.style.cursor = "pointer";
+    }
+
+    isPanModeRef.current = false;
+    panzoomRef.current?.pause();
+
+  }
+
+  // select mode
+
   function pausePanZoom() {
 
     setIndicator(false);
+    setStartDraw(false);
 
     isPanModeRef.current = false;
 
@@ -202,6 +278,8 @@ export function Canvas() {
     panzoomRef.current?.pause();
   }
 
+  // Grab mode 
+
   function resumePanZoom() {
 
     if(canvasRef.current) {
@@ -209,6 +287,7 @@ export function Canvas() {
     }
    
     setIndicator(true);
+    setStartDraw(false);
 
     isPanModeRef.current = true;
     panzoomRef.current?.resume();
@@ -224,6 +303,7 @@ export function Canvas() {
           deleteShape={deleteShape}
           selectedShapeID={selectShapeId}
           indicator={Indicator}
+          enableDrawMode={enableDrawMode}
         />
         <Sidebar />
 
@@ -233,7 +313,6 @@ export function Canvas() {
         ref={canvasRef}
 
       onPointerMove={handleCanvasPointerMove}
-      onPointerUp={endDrag}
       onPointerCancel={endDrag}
       onPointerLeave={() => updateMyPresence({ cursor: null })}
       onLostPointerCapture={endDrag}
@@ -247,6 +326,23 @@ export function Canvas() {
         className="whiteboard-canvas"
 
       >
+      <svg
+        className="draw-object"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={() => setPoints([])}
+        style={{
+          pointerEvents: startDraw ? "auto" : "none",
+          touchAction: "none",
+        }}
+      >
+        {Object.entries(strokes).map(([id, savedStroke]) => (
+          <path key={id} d={savedStroke.path} />
+        ))}
+        {points.length > 0 && <path d={pathData} />}
+      </svg>
+
       {Object.entries(shapes ?? {}).map(([id, shape]) => {
 
         const selectedByOther = others.some(
@@ -254,8 +350,6 @@ export function Canvas() {
         );
 
         return (
-          <>
-          
           <button
             key={id}
             type="button"
@@ -279,9 +373,6 @@ export function Canvas() {
               touchAction: "none",
             }}
           />
-
-
-          </>
         );
       })}
 

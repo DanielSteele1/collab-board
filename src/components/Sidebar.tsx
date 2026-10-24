@@ -9,7 +9,7 @@ import { MdOutlineGridView } from "react-icons/md";
 function Sidebar() {
 
    const [isCollapsed, setIsCollapsed] = useState(false);
-   const [isViewSwitch, setIsViewSwitch] = useState(true);
+   const [isViewSwitch, setIsViewSwitch] = useState(false);
    const [searchTerm, setSearchTerm] = useState('');
 
    const [boards] = useState<WhiteboardCollection>(() => {

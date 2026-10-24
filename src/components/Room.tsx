@@ -12,7 +12,6 @@ import {
 import type { ReactNode } from "react";
 
 interface RoomProps{
-
     boardId: string;
     children: ReactNode;
 }
@@ -40,10 +39,10 @@ interface RoomProps{
 
             [
                 "shape-3",
-                new LiveObject({ x: 880, y: 100, fill: "#854e0b"}),
+                new LiveObject({ x: 880, y: 400, fill: "#854e0b"}),
             ],
-
         ]),
+        strokes: new LiveMap(),
        }}
        >
         <ClientSideSuspense fallback={<div className="loader">

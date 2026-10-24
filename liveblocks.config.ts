@@ -3,14 +3,9 @@
 
 import type { LiveMap, LiveObject} from "@liveblocks/client";
 
-    export type Shape = {
+import type { Shape, Stroke } from './src/Types.tsx';
 
-      x: number,
-      y: number,
-      fill: string;
-      
-    };
-  
+ 
 declare global {
   interface Liveblocks {
     // Each user's Presence, for room.getPresence, room.subscribe("others"), etc.
@@ -29,6 +24,7 @@ declare global {
       // animals: LiveList<string>;
 
       shapes: LiveMap<string, LiveObject<Shape>>;
+      strokes: LiveMap<string, LiveObject<Stroke>>;
 
     };
 

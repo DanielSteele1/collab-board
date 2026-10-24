@@ -16,10 +16,11 @@ interface ToolbarProps {
         selectedShapeID: string | null;
         pausePanZoom: () => void;
         resumePanZoom: () => void;
+        enableDrawMode: () => void;
         indicator: boolean;
 }
 
-function Toolbar({indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
+function Toolbar({enableDrawMode, indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
 
     return(
 
@@ -40,7 +41,7 @@ function Toolbar({indicator, pausePanZoom, resumePanZoom, addShape, deleteShape,
              <IoShapesOutline/>  
             </button>
 
-            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Draw mode">
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Draw mode" onClick={enableDrawMode}>
              <BiBrush /> 
             </button>
 

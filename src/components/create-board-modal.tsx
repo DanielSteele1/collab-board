@@ -34,7 +34,7 @@ function CreateBoardModal({ onCreate }: CreateBoardModalProps) {
 
       <Dialog.Trigger > <BiPlus/> Create a new board </Dialog.Trigger>
 
-      <Dialog.Portal>
+      <Dialog.Portal container={document.getElementById('app-theme')}>
         <Dialog.Overlay className="modal-overlay"/>
         <Dialog.Content className='modal'>
           <Dialog.Title className="modal-title"> Create a new whiteboard </Dialog.Title>

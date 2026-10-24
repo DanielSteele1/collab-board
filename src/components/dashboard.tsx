@@ -10,7 +10,6 @@ import { BsFilterLeft } from "react-icons/bs";
 import { TiSortAlphabetically } from "react-icons/ti";
 
 import { MdOutlineDateRange } from "react-icons/md";
-
 import CreateBoardModal from './create-board-modal.tsx';
 
 import { DropdownMenu } from "radix-ui";
@@ -55,7 +54,6 @@ function Dashboard(){
 
   const [view, setView] = useState(true);
   
-
   // possible filters
 
   const [sortBy, setSortBy] = useState<"A-Z" | "New" | "Old" | "Color" | "None">("None");
@@ -134,7 +132,7 @@ function Dashboard(){
 
         <div className="dashboard-welcome">
 
-         <span className="heading"> Weclome, User!</span>
+         <span className="heading"> Welcome, User! </span>
          <div className="dashboard-sub-heading"> Click on the options below to get started.  </div>
          <div className="dashboard-sub-heading"> Either create a new board, join an existing board or search through your current workspaces.</div>
          

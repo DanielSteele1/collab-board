@@ -25,20 +25,13 @@ function App() {
   const toggleLight: React.MouseEventHandler<HTMLButtonElement> = () => setLightOn(prev => !prev);
 
   useEffect(() => {
-
     const theme = isLightOn ? 'light' : 'dark';
-
-   document.documentElement.setAttribute(
-    "data-mantine-color-scheme", theme,
-   );
-
-   localStorage.setItem("theme", theme);
-  
-  });
+    localStorage.setItem('theme', theme);
+  }, [isLightOn]);
 
   return (
-    <section className="main-container">
-      <Theme className="app-theme" accentColor='purple' appearance={isLightOn ? 'light' : 'dark'}> 
+    <Theme id="app-theme" className="app-theme" accentColor='purple' appearance={isLightOn ? 'light' : 'dark'}>
+      <section className="main-container">
 
       <BrowserRouter>
 
@@ -58,8 +51,8 @@ function App() {
 
       </BrowserRouter>
 
-      </Theme>
-    </section>
+      </section>
+    </Theme>
   )
 }
 
