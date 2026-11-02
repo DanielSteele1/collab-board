@@ -6,10 +6,11 @@ import { Link } from "react-router";
 import { MdDateRange } from "react-icons/md";
 
 import { formatDistance } from "date-fns";
+import { BsFillPeopleFill } from "react-icons/bs";
 
 interface WhiteboardCardProps {
 
-    board: WhiteboardType; //inherit the already established type structure
+    board: WhiteboardType;
     onDelete: (boardId: string) => void;
 }
 
@@ -31,11 +32,12 @@ function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
             </div>
             <Link to={board.boardURL} className="whiteboard-title">
                <span className="whiteboard-card-title">{board.title}</span>
-               <div className="whiteboard-tray"> 
                <span className="whiteboard-subheading">{board.description || "A space to make something together."}</span>
+
+               <div className="whiteboard-tray">
+                <span className="whiteboard-createdBy"> <BsFillPeopleFill /> {board.createdBy || "Created by you"} </span>
                <span className="whiteboard-createdAt"> <MdDateRange /> {createdDate} </span>
                </div>
-             
             </Link>
           </div>
     );

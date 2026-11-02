@@ -16,8 +16,19 @@ interface WhiteboardCardProps {
 
 function WhiteboardTable({boards, onDelete}:WhiteboardCardProps){
     return (
-        <div className="whiteboard-table">
+        <>
 
+
+        {boards.length === 0 ? (
+
+            <div className="no-results">
+                <span> No Boards found. Click create to make a new board. </span>
+            </div>
+
+        ) : ( 
+
+             <div className="whiteboard-table">
+        
             <Table.Root>
                 <Table.Header>
                     <Table.Row>
@@ -51,6 +62,10 @@ function WhiteboardTable({boards, onDelete}:WhiteboardCardProps){
             </Table.Root>
 
           </div>
+
+        )}
+
+          </>
     );
 }
 

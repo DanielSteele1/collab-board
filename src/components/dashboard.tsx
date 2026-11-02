@@ -18,6 +18,7 @@ import { BiX } from "react-icons/bi";
   const moodboardId = crypto.randomUUID();
   const ideasId = crypto.randomUUID();
   const projectsId = crypto.randomUUID();
+  const wireframeId = crypto.randomUUID();
 
   const defaultBoards: WhiteboardCollection = [
   {
@@ -27,6 +28,7 @@ import { BiX } from "react-icons/bi";
     color:  "#c681f5",
     boardURL: `/whiteboard/${ideasId}`,
     createdAt: Date.parse("2026-02-26"),
+    createdBy: 'Auto-Generated'
 
   },
   {
@@ -36,6 +38,7 @@ import { BiX } from "react-icons/bi";
     color: "#4F8EF7",
     boardURL: `/whiteboard/${projectsId}`,
     createdAt: Date.parse('2025-06-14'),
+    createdBy: 'Auto-Generated'
   },
   {
     id: moodboardId,
@@ -44,6 +47,16 @@ import { BiX } from "react-icons/bi";
     color: "#ddab4e",
     boardURL: `/whiteboard/${moodboardId}`,
     createdAt: Date.parse('2024-12-14'),
+    createdBy: 'Auto-Generated'
+  },
+  {
+    id: wireframeId,
+    title: "Wireframe",
+    description: "Wrireframing work",
+    color: "#52c258",
+    boardURL: `/whiteboard/${wireframeId}`,
+    createdAt: Date.parse('2022-10-14'),
+    createdBy: 'Auto-Generated',
   },
 
 ];
@@ -74,7 +87,7 @@ function Dashboard(){
       return board.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
-   function CreateWhiteboard(title: string, description: string){
+   function CreateWhiteboard(title: string, description: string, createdBy: string){
 
     const boardId = crypto.randomUUID();
 
@@ -86,6 +99,7 @@ function Dashboard(){
       color: GenerateRandomColor(),
       boardURL: `/whiteboard/${boardId}`,
       createdAt: Date.now(),
+      createdBy,
     };
 
     const updatedBoards = [...boards, newBoard];

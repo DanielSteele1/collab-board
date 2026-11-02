@@ -81,6 +81,10 @@ export function Canvas() {
 
   const [Indicator, setIndicator] = useState(false);
 
+  // color of the draw path element
+  const [pathColor, setPathColor] = useState('#A259FF');
+  const [brushSize, setBrushSize] = useState(16);
+  
   const [startDraw, setStartDraw] = useState(false);
 
   // array of points where cursor is dragged when draw mode is enabled.
@@ -103,6 +107,14 @@ export function Canvas() {
     instance.pause();
     panzoomRef.current = instance;
 
+    const viewport = canvas.parentElement;
+    if (viewport) {
+      instance.moveTo(
+        (viewport.clientWidth - canvas.offsetWidth) / 2,
+        (viewport.clientHeight - canvas.offsetHeight) / 2,
+      );
+    }
+
     return () => {
       instance.dispose();
       panzoomRef.current = null;
@@ -111,10 +123,10 @@ export function Canvas() {
 
   //--------- store objecs into liveblocks for others to see -------------------
 
-  const saveStroke = useMutation(({ storage }, path: string) => {
+  const saveStroke = useMutation(({ storage }, path: string, color: string) => {
     storage.get("strokes").set(
       crypto.randomUUID(),
-      new LiveObject({ path })
+      new LiveObject({ path, color })
     );
   }, []);
 
@@ -157,7 +169,7 @@ export function Canvas() {
 
   function handlePointerUp(){
     if (startDraw && pathData) {
-      saveStroke(pathData);
+      saveStroke(pathData, pathColor);
     }
 
     setPoints([]);
@@ -170,10 +182,12 @@ export function Canvas() {
     if (point) setPoints((previous) => [...previous, point]);
   }
 
-  const stroke = getStroke(points, {
+  //stroke 
 
-    size: 16,
+  const stroke = getStroke(points, {
+    size: brushSize,
     thinning: 0.5,
+    easing: (t) => 1 - Math.cos((t * Math.PI)) / 2,
     smoothing: 0.5,
     streamline: 0.5,
   });
@@ -304,6 +318,11 @@ export function Canvas() {
           selectedShapeID={selectShapeId}
           indicator={Indicator}
           enableDrawMode={enableDrawMode}
+          setPathColor={setPathColor}
+          setBrushSize={setBrushSize}
+          brushSize={brushSize}
+          pathColor={pathColor}
+
         />
         <Sidebar />
 
@@ -335,12 +354,13 @@ export function Canvas() {
         style={{
           pointerEvents: startDraw ? "auto" : "none",
           touchAction: "none",
+
         }}
       >
         {Object.entries(strokes).map(([id, savedStroke]) => (
-          <path key={id} d={savedStroke.path} />
+          <path key={id} d={savedStroke.path} fill={savedStroke.color || '#000000'} />
         ))}
-        {points.length > 0 && <path d={pathData} />}
+        {points.length > 0 && <path d={pathData} fill={pathColor}/>}
       </svg>
 
       {Object.entries(shapes ?? {}).map(([id, shape]) => {

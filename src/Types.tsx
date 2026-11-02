@@ -6,6 +6,7 @@ export interface WhiteboardType {
   color: string;
   boardURL: string;
   createdAt: number;
+  createdBy: string;
 }
 
 export type WhiteboardCollection = WhiteboardType[];
@@ -30,6 +31,7 @@ export type Shape = {
 
 export type Stroke = {
   path: string;
+  color: string;
 }
 
 // used to track a users cursor movement when drawing is enabled. X Y Z etc.

@@ -1,4 +1,4 @@
-import { BiBrush, BiRedo, BiText, BiTrash, BiUndo } from "react-icons/bi";
+import { BiRedo, BiText, BiTrash, BiUndo } from "react-icons/bi";
 import { IoShapesOutline } from "react-icons/io5";
 import { GrCursor } from "react-icons/gr";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
@@ -9,6 +9,9 @@ import { PiHandGrabbingBold } from "react-icons/pi";
 import "toastify-js/src/toastify.css";
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { HexColorPicker } from 'react-colorful';
+import { Popover } from "@radix-ui/themes";
+
 
 interface ToolbarProps {
         deleteShape: (id: string) => void;
@@ -18,10 +21,14 @@ interface ToolbarProps {
         resumePanZoom: () => void;
         enableDrawMode: () => void;
         indicator: boolean;
+        setPathColor: (color: string) => void;
+        setBrushSize: (brushSize: number) => void;
+        pathColor: string;
+        brushSize: number;
 }
 
-function Toolbar({enableDrawMode, indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
-
+function Toolbar({brushSize, setBrushSize, enableDrawMode, pathColor, setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
+           
     return(
 
         <>
@@ -41,10 +48,27 @@ function Toolbar({enableDrawMode, indicator, pausePanZoom, resumePanZoom, addSha
              <IoShapesOutline/>  
             </button>
 
-            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Draw mode" onClick={enableDrawMode}>
-             <BiBrush /> 
-            </button>
+                 <Popover.Root>
+                  <Popover.Trigger>
+                     <button
+                      type="button"
+                        aria-label="Choose brush color"
+                       data-tooltip-id="toolbar-tooltip"
+                       data-tooltip-content="Choose color"
+                       onClick={enableDrawMode}
+                      >
+                    <div id="color-indicator" style={{backgroundColor: pathColor}}> </div>
+                  </button>
+                 </Popover.Trigger>
 
+                 <Popover.Content className="brush-popover" side="top" sideOffset={15}>
+                   <HexColorPicker color={pathColor} onChangeEnd={(color) => setPathColor(color)}/>
+                   <div className="brush-size"> 
+                    <span className="popover-title"> Brush Size</span>
+                    <input type='number' min={1} max={64} value={brushSize} onChange={(event) => setBrushSize(Number(event.target.value))}/> </div>
+                 </Popover.Content>
+                </Popover.Root>
+                
             <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add text">
              <BiText />
             </button>

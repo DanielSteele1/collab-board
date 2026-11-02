@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Dialog } from 'radix-ui';
 import { BiPlus } from 'react-icons/bi';
 import { PiPlus } from 'react-icons/pi';
-import { Button, TextField } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
 import { RxCross2 } from 'react-icons/rx';
 
 interface CreateBoardModalProps {
-  onCreate: (title: string, description: string) => void;
+  onCreate: (title: string, description: string, createdBy: string) => void;
 }
 
 function CreateBoardModal({ onCreate }: CreateBoardModalProps) {
@@ -23,7 +23,7 @@ function CreateBoardModal({ onCreate }: CreateBoardModalProps) {
       return;
     }
 
-    onCreate(boardTitle, description.trim());
+    onCreate(boardTitle, description.trim(), 'Created by you');
     setTitle('');
     setDescription('');
     setOpen(false);
@@ -51,8 +51,9 @@ function CreateBoardModal({ onCreate }: CreateBoardModalProps) {
               <button type="submit" id="modal-button"> <PiPlus /> Create Board </button>
               
              <Dialog.Close>
-              <Button id="modal-button" variant="outline">
-                 <RxCross2/> Exit </Button>
+              <button id="modal-button">
+                 <RxCross2/> Exit 
+              </button>
               </Dialog.Close> 
             </div>
 

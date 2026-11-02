@@ -36,11 +36,6 @@ interface RoomProps{
                 "shape-2",
                 new LiveObject({ x: 480, y: 200, fill: "#859e0b"}),
             ],
-
-            [
-                "shape-3",
-                new LiveObject({ x: 880, y: 400, fill: "#854e0b"}),
-            ],
         ]),
         strokes: new LiveMap(),
        }}
