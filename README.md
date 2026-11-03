@@ -3,9 +3,9 @@ A real time collaborative whiteboard application, coded in ReactJs and TS, and u
 
 - Users can create a whiteboard to plan their next project, and then generate a code, in which another user can then enter in to join the same workspace.
 
-- early screenshots:
+- Early Screenshots:
 
-- <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/41daf2a0-c163-44e1-9f84-f091d9f0a6af" />
+<img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/c6b3b482-bb46-40c3-8e9f-d46e39ef4598" />
 
 - <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/d0f659bc-317e-47df-9ec3-95d697f371b5" />
 
