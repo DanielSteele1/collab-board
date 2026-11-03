@@ -1,16 +1,17 @@
-import { BiRedo, BiText, BiTrash, BiUndo } from "react-icons/bi";
-import { IoShapesOutline } from "react-icons/io5";
+import { BiTrash} from "react-icons/bi";
+import { IoShapesOutline, IoText } from "react-icons/io5";
 import { GrCursor } from "react-icons/gr";
-import { MdOutlineDashboardCustomize } from "react-icons/md";
-import { Link } from "react-router";
+import { MdOutlineRedo, MdOutlineUndo } from "react-icons/md";
 import { FaRegHandPaper } from "react-icons/fa";
 import { PiHandGrabbingBold } from "react-icons/pi";
+import { FaNoteSticky } from "react-icons/fa6";
 
 import "toastify-js/src/toastify.css";
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { HexColorPicker } from 'react-colorful';
 import { Popover } from "@radix-ui/themes";
+import { BsEraser } from "react-icons/bs";
 
 
 interface ToolbarProps {
@@ -23,15 +24,23 @@ interface ToolbarProps {
         indicator: boolean;
         setPathColor: (color: string) => void;
         setBrushSize: (brushSize: number) => void;
+        eraser: () => void;
         pathColor: string;
         brushSize: number;
 }
 
-function Toolbar({brushSize, setBrushSize, enableDrawMode, pathColor, setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, deleteShape, selectedShapeID}:ToolbarProps) {
+function Toolbar({
+  eraser,
+  brushSize, setBrushSize, enableDrawMode, pathColor, 
+  setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, 
+  deleteShape, selectedShapeID}:ToolbarProps) {
            
     return(
 
-        <>
+        <div className="whiteboard-toolbar-container">
+          <div className="wb-toolbar-top">
+            <div className="indicator"> {indicator ? <span className="grab-mode-indicator"> <PiHandGrabbingBold /> Grab Enabled </span> : <>  </>} </div>
+          </div>
         <div className="whiteboard-toolbar">
 
           <div className="wb-toolbar-left">
@@ -64,36 +73,33 @@ function Toolbar({brushSize, setBrushSize, enableDrawMode, pathColor, setPathCol
                  <Popover.Content className="brush-popover" side="top" sideOffset={15}>
                    <HexColorPicker color={pathColor} onChangeEnd={(color) => setPathColor(color)}/>
                    <div className="brush-size"> 
-                    <span className="popover-title"> Brush Size</span>
                     <input type='number' min={1} max={64} value={brushSize} onChange={(event) => setBrushSize(Number(event.target.value))}/> </div>
                  </Popover.Content>
                 </Popover.Root>
                 
             <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add text">
-             <BiText />
+             <IoText />
             </button>
-          </div>
 
-          <div className="wb-toolbar-mid">
-            {indicator ? <span className="grab-mode-indicator"> <PiHandGrabbingBold />  Grab mode enabled </span> : <>  </>}
+               <button id="wb-button-stickyNote" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo">
+              <FaNoteSticky />
+            </button>
+
+            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Eraser" onClick={eraser}>
+             <BsEraser/>
+            </button>
           </div>
 
           <div className="wb-toolbar-right">
 
-            <Link to="/dashboard" id="wb-button-back">
-            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Dashboard">
-              <MdOutlineDashboardCustomize /> 
-            </button>
-            </Link>
-
             <button id="wb-button-undo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo">
-              <BiUndo />
+              <MdOutlineUndo />
             </button>
 
             <button id="wb-button-redo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Redo">
-              <BiRedo /> 
+              <MdOutlineRedo /> 
             </button>
-
+            
             <button id="wb-button-delete" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Delete selected shape" onClick={() => selectedShapeID && deleteShape(selectedShapeID)}>
               <BiTrash />
             </button>
@@ -101,7 +107,7 @@ function Toolbar({brushSize, setBrushSize, enableDrawMode, pathColor, setPathCol
           </div>
         </div>
         <ReactTooltip id="toolbar-tooltip" place="top" />
-        </>
+        </div>
     )
 }
 

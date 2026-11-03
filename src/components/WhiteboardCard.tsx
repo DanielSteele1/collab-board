@@ -14,9 +14,10 @@ interface WhiteboardCardProps {
     onDelete: (boardId: string) => void;
 }
 
-function WhiteboardCard({board, onDelete}:WhiteboardCardProps){
+function WhiteboardCard({ board, onDelete }:WhiteboardCardProps){
 
     const createdDate = formatDistance(new Date(board.createdAt), new Date(), {addSuffix: true});
+
 
     return (
         <div className="whiteboard">

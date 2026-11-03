@@ -6,6 +6,7 @@ import { type PointerEvent, type PointerEvent as ReactPointerEvent, useEffect, u
 
 import Sidebar from './Sidebar';
 import Toolbar from "./Toolbar";
+import ZoomWidget from "./ZoomWidget";
 
 import panzoom from "panzoom";
 
@@ -73,13 +74,13 @@ export function Canvas() {
   const deleteShape = useMutation(({ storage }, id: string) => {
     storage.get("shapes").delete(id);
   }, []);
-  
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
   const isPanModeRef = useRef(false);
 
   const [Indicator, setIndicator] = useState(false);
+  const [zoomAmount, setZoomAmount] = useState(100);
 
   // color of the draw path element
   const [pathColor, setPathColor] = useState('#A259FF');
@@ -96,6 +97,8 @@ export function Canvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // panzoom controls
 
     const instance = panzoom(canvas, {
       maxZoom: 2,
@@ -115,7 +118,10 @@ export function Canvas() {
       );
     }
 
+    instance.on("transform", syncZoom);
+
     return () => {
+      instance.off("transform", syncZoom);
       instance.dispose();
       panzoomRef.current = null;
     };
@@ -307,6 +313,35 @@ export function Canvas() {
     panzoomRef.current?.resume();
   }
 
+
+  function eraser() {
+
+  }
+
+  function syncZoom() {
+
+    const scale = panzoomRef.current?.getTransform().scale ?? 1;
+
+    setZoomAmount(Math.round(scale * 100));
+
+  }
+
+function IncrementZoom() {
+  const zoom = Math.min((zoomAmount + 10) / 100, 2);
+
+  panzoomRef.current?.smoothZoomAbs(0, 0, zoom);
+
+  setZoomAmount(Math.round(zoom * 100));
+}
+
+function DecrementZoom() {
+  const zoom = Math.max((zoomAmount - 10) / 100, 0.1);
+
+  panzoomRef.current?.smoothZoomAbs(0, 0, zoom);
+  
+  setZoomAmount(Math.round(zoom * 100));
+}
+
   return (
     <>
         <Toolbar
@@ -320,11 +355,14 @@ export function Canvas() {
           enableDrawMode={enableDrawMode}
           setPathColor={setPathColor}
           setBrushSize={setBrushSize}
+          eraser={eraser}
           brushSize={brushSize}
           pathColor={pathColor}
 
         />
         <Sidebar />
+
+        <ZoomWidget IncrementZoom={IncrementZoom} DecrememntZoom={DecrementZoom} ZoomAmount={zoomAmount}/>
 
     <div className="whiteboard-viewport">
       <div

@@ -15,6 +15,7 @@ import CreateBoardModal from './create-board-modal.tsx';
 import { DropdownMenu } from "radix-ui";
 import { BiX } from "react-icons/bi";
 
+
   const moodboardId = crypto.randomUUID();
   const ideasId = crypto.randomUUID();
   const projectsId = crypto.randomUUID();
@@ -64,7 +65,6 @@ import { BiX } from "react-icons/bi";
 function Dashboard(){
 
   const [searchTerm, setSearchTerm] = useState('');
-
   const [view, setView] = useState(true);
   
   // possible filters

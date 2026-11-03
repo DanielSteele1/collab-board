@@ -11,14 +11,14 @@ import {formatDistance} from 'date-fns';
 interface WhiteboardCardProps {
 
     boards: WhiteboardCollection;
+
     onDelete: (boardId: string) => void;
 }
 
-function WhiteboardTable({boards, onDelete}:WhiteboardCardProps){
+function WhiteboardTable({ boards, onDelete }:WhiteboardCardProps){
+    
     return (
         <>
-
-
         {boards.length === 0 ? (
 
             <div className="no-results">

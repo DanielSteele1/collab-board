@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { FiUser } from "react-icons/fi";
 import { LiaSun } from "react-icons/lia";
 import { HiOutlineMoon } from "react-icons/hi2";
@@ -16,10 +16,12 @@ interface NavigationProps {
 function Navigation({ isLightOn, toggleLight }: NavigationProps) {
 
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isViewingBoard = location.pathname.startsWith("/whiteboard/");
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <section className="navigation-container">
+    <section className={`navigation-container${isViewingBoard ? " board-navigation" : ""}`}>
       <div className="navigation">
         <Link className="nav-logo" to="/">
             <MdOutlineDraw />

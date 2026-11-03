@@ -16,7 +16,6 @@ function Sidebar() {
     
       const saved = localStorage.getItem('whiteboardsArray');
       return saved ? (JSON.parse(saved) as WhiteboardCollection) : [];
-
    })
 
    function searchBoards() {
