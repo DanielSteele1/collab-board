@@ -149,8 +149,10 @@ function Dashboard(){
          <span className="heading"> Welcome, User! </span>
          <div className="dashboard-sub-heading"> Click on the options below to get started.  </div>
          <div className="dashboard-sub-heading"> Either create a new board, join an existing board or search through your current workspaces.</div>
-         
-         <div className="dashboard-toolbar">
+        
+        </div>
+
+        <div className="dashboard-toolbar">
 
           <div className='toolbar-left'>
 
@@ -165,8 +167,9 @@ function Dashboard(){
           onChange={(event) => setSearchTerm(event.target.value)} />
 
           </div>
+       
 
-          <div className="switch-views">
+        <div className="switch-views">
     
            <DropdownMenu.Root> 
             <DropdownMenu.Trigger asChild> 
@@ -187,7 +190,7 @@ function Dashboard(){
               </DropdownMenu.Content>
             </DropdownMenu.Root>
 
-                    <div className="sort-by-indicator">
+            <div className="sort-by-indicator">
              ( {sortBy} )
             </div>
 
@@ -195,11 +198,9 @@ function Dashboard(){
              {view ? (<div className="view-btn"> <LuTable2 /> </div>) : (<div className="view-btn"> <MdOutlineGridView /> </div>) }
             </button>
           </div>
-
-         </div>
         </div>
 
-      <div className="whiteboards">
+          <div className="whiteboards">
 
         {view ? (
 
@@ -219,17 +220,15 @@ function Dashboard(){
          )}
 
         </div>
+
         ) : (
             <WhiteboardTable boards={filteredBoards} onDelete={DeleteWhiteboard} />        
         )
-      }
+        }
 
-       </div>
-
+        </div>
       </div>
-
-      </div>
-
+    </div>
     </section>
   )
 }

@@ -316,6 +316,8 @@ export function Canvas() {
 
   function eraser() {
 
+    
+
   }
 
   function syncZoom() {

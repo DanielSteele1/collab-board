@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import { GrCursor } from "react-icons/gr";
 import { MdOutlineDraw } from "react-icons/md";
+import { IoArrowBack } from "react-icons/io5";
 
 interface NavigationProps {
   toggleLight: React.MouseEventHandler<HTMLButtonElement>;
@@ -30,9 +31,19 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
 
         <div className="nav-items">
 
+            {isViewingBoard ? (
+            <Link className="back-button" to="/dashboard"> 
+            <span> <IoArrowBack/> Back </span>
+            </Link>
+
+            ) : (
+
             <Link className="nav-item" id="workspace-button" to="/dashboard">
               <MdOutlineDraw /> Create a Workspace
             </Link>
+            )
+             }
+      
 
             <Link className="nav-item" id="login-button" to="/login">
               <FiUser /> Login

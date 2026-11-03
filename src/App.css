@@ -275,6 +275,21 @@ button:hover{
   font-weight: 450;
 }
 
+.back-button > span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 1.0rem;
+  color: var(--text-color);
+}
+
+.back-button > span svg{
+  margin-right: 5px;
+}
+
 #login-button,
 #theme-button{
   background-color: transparent;
@@ -488,6 +503,7 @@ color: #A259FF;
 
 .dashboard{
   display: flex;
+  flex-direction: column;
   width: 80%;
   min-height: 100dvh;
   height: auto;
@@ -507,7 +523,6 @@ color: #A259FF;
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  min-height: 600px;
   height: fit-content;
 }
 
@@ -515,20 +530,21 @@ color: #A259FF;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: fit-content;
-  align-items: flex-start;
+  height: 220px;
+  align-items: center;
   justify-content: flex-start;
   border-radius: 8px;
 }
 
 .heading{
-  font-size: 1.8rem;
-  text-align: left;
+  font-size: 3.0rem;
+  height: 100px;
+  width: 100%;
 }
 
 .dashboard-sub-heading{
   font-size: 1.0rem;
-  text-align: left;
+  text-align: center;
 }
 
 .operations{
@@ -1249,6 +1265,16 @@ margin-top: 50px;
 
 
 @media(max-width: 750px) {
+
+  .whiteboard-grid{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: auto;
+  margin: 0;
+  gap: 15px;
+  width: 100%;
+  flex-wrap: wrap;
+}
 
   .login-conatiner{
     width: 100%;
