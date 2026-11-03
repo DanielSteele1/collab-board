@@ -13,6 +13,8 @@ import panzoom from "panzoom";
 import { getStroke } from 'perfect-freehand'
 import { getSvgPathFromStroke } from '../utils'
 
+import StickyNote from './StickyNote.tsx';
+
 import { PiCursorFill } from "react-icons/pi";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
@@ -34,7 +36,10 @@ export function Canvas() {
       ? (value as Record<string, Shape>)
       : {}) as Record<string, Shape>;
   });
+
   const strokes = useStorage((root) => root.strokes);
+
+  const notes = useStorage((root) => root.notes);
 
   const selectShapeId = useSelf(
     (me) => me.presence.selectShapeId
@@ -60,13 +65,31 @@ export function Canvas() {
     storage.get("shapes").set(
         id,
         new LiveObject({
-            x: 80 + Math.round(Math.random() * 40),
-            y: 200 + Math.round(Math.random() * 240),
+           x: 2400 - (100 / 2),
+           y: 1350 - (100 / 2),
             fill,
         })
     );
 
     return id;
+  }, []);
+
+  const addNote = useMutation(({ storage }) => {
+
+
+    const id = crypto.randomUUID();
+    const fill = "#f5d90a";
+
+    storage.get("notes").set(
+      id,
+      new LiveObject({
+        x: 2400 - (100 / 2),
+        y: 1350 - (100 / 2),
+         fill,
+      })
+    );
+
+
   }, []);
 
   // delete a shape
@@ -144,6 +167,15 @@ export function Canvas() {
     []
   );
 
+  const moveNote = useMutation(
+    ({ storage }, id: string, x: number, y: number) => {
+
+      storage.get("notes").get(id)?.update({ x, y });
+
+    },
+    []
+  );
+
   function selectShape(id:string | null ) {
     updateMyPresence({ selectShapeId: id });
   }
@@ -207,7 +239,9 @@ export function Canvas() {
 
     event: PointerEvent<HTMLButtonElement>,
     id: string,
-    shape: Readonly<Shape> 
+    shape: Readonly<Shape>,
+    itemType: "shape" | "note"
+
   ) {
 
     if (isPanModeRef.current) return;
@@ -222,7 +256,8 @@ export function Canvas() {
 
     dragRef.current = {
       pointerId: event.pointerId,
-      shapeId: id,
+      itemId: id,
+      itemType,
       offsetX: event.clientX - bounds.left - shape.x,
       offsetY: event.clientY - bounds.top - shape.y,
     };
@@ -238,8 +273,15 @@ export function Canvas() {
     if(!drag || drag.pointerId !== event.pointerId ) return;
 
     const bounds = event.currentTarget.getBoundingClientRect();
+
     moveShape(
-      drag.shapeId,
+      drag.itemId,
+      event.clientX - bounds.left - drag.offsetX,
+      event.clientY - bounds.top - drag.offsetY,
+    );
+
+    moveNote(
+      drag.itemId,
       event.clientX - bounds.left - drag.offsetX,
       event.clientY - bounds.top - drag.offsetY,
     );
@@ -350,6 +392,7 @@ function DecrementZoom() {
           
           pausePanZoom={pausePanZoom}
           resumePanZoom={resumePanZoom}
+          addNote={addNote}
           addShape={addShape}
           deleteShape={deleteShape}
           selectedShapeID={selectShapeId}
@@ -403,6 +446,10 @@ function DecrementZoom() {
         {points.length > 0 && <path d={pathData} fill={pathColor}/>}
       </svg>
 
+      {Object.entries(notes ?? {}).map(([id, note]) => (
+        <StickyNote startDrag={startDrag}  key={id} id={id} note={note} />
+      ))}
+
       {Object.entries(shapes ?? {}).map(([id, shape]) => {
 
         const selectedByOther = others.some(
@@ -414,7 +461,7 @@ function DecrementZoom() {
             key={id}
             type="button"
             aria-label={`Select box ${id}`}
-            onPointerDown={(event) => startDrag(event, id, shape)}
+            onPointerDown={(event) => startDrag(event, id, shape, "shape")}
             style={{
               position: "absolute",
               left: shape.x,

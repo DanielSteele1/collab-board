@@ -11,14 +11,13 @@ export interface WhiteboardType {
 
 export type WhiteboardCollection = WhiteboardType[];
 
-// used to track users cursor movement when Dragging is enabled, so users can 
-// move the canvas
 
 export type Drag = {
    pointerId: number;
-   shapeId: string;
    offsetX: number;
    offsetY: number;
+   itemId: string;
+   itemType: "shape" | "note"; // add more obj here later
 }
 
 // Shape of a shape object. 
@@ -34,6 +33,12 @@ export type Stroke = {
   color: string;
 }
 
-// used to track a users cursor movement when drawing is enabled. X Y Z etc.
+// add text property here later
+
+export type Notes = {
+  x: number;
+  y: number;
+  fill: string;
+}
 
 export type FreehandPoint = [number, number, number];

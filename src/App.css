@@ -730,7 +730,6 @@ margin-top: 50px;
   width: 100px;
   aspect-ratio: 1;
   border-radius: 50%;
-  -webkit-mask:linear-gradient(0deg,#000 55%,#0000 0) bottom/100% 18.18%;
   background:
    linear-gradient(#A259FF 0) bottom/100% 0% no-repeat
    #ddd;
@@ -1261,6 +1260,15 @@ margin-top: 50px;
 .plus-zoom-button > button, .minus-zoom-button > button{
   background-color: var(--color-background) !important;
   color: var(--text-color);
+}
+
+.sticky-note{
+  display: flex;
+  height: 200px;
+  width: 200px;
+  color: black;
+  align-items: flex-start;
+  font-size: 1.0rem;
 }
 
 

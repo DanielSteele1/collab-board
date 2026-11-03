@@ -168,7 +168,6 @@ function Dashboard(){
 
           </div>
        
-
         <div className="switch-views">
     
            <DropdownMenu.Root> 
@@ -176,7 +175,6 @@ function Dashboard(){
             <button className="grid-toggle">
              <BsFilterLeft /> Sort by
             </button>
-
 
             </DropdownMenu.Trigger>
 

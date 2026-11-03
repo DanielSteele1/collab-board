@@ -38,6 +38,7 @@ interface RoomProps{
             ],
         ]),
         strokes: new LiveMap(),
+        notes: new LiveMap(),
        }}
        >
         <ClientSideSuspense fallback={<div className="loader">

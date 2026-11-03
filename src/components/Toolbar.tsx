@@ -17,6 +17,7 @@ import { BsEraser } from "react-icons/bs";
 interface ToolbarProps {
         deleteShape: (id: string) => void;
         addShape: () => void;    
+        addNote: () => void;
         selectedShapeID: string | null;
         pausePanZoom: () => void;
         resumePanZoom: () => void;
@@ -30,6 +31,7 @@ interface ToolbarProps {
 }
 
 function Toolbar({
+  addNote,
   eraser,
   brushSize, setBrushSize, enableDrawMode, pathColor, 
   setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, 
@@ -81,7 +83,7 @@ function Toolbar({
              <IoText />
             </button>
 
-               <button id="wb-button-stickyNote" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo">
+              <button id="wb-button-stickyNote" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Sticky Note" onClick={addNote}>
               <FaNoteSticky />
             </button>
 

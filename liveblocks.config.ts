@@ -3,7 +3,7 @@
 
 import type { LiveMap, LiveObject} from "@liveblocks/client";
 
-import type { Shape, Stroke } from './src/Types.tsx';
+import type { Shape, Stroke, Notes } from './src/Types.tsx';
 
  
 declare global {
@@ -25,6 +25,7 @@ declare global {
 
       shapes: LiveMap<string, LiveObject<Shape>>;
       strokes: LiveMap<string, LiveObject<Stroke>>;
+      notes: LiveMap<string, LiveObject<Notes>>;
 
     };
 
