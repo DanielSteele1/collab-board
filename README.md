@@ -1,7 +1,14 @@
 # Real-time-collaborative-Whiteboard
 A real time collaborative whiteboard application, coded in ReactJs and TS, and utilising Live blocks for the real time capabilities.
 
-- Users can create a whiteboard to plan their next project, and then generate a code, in which another user can then enter in to join the same workspace. 
+- Users can create a whiteboard to plan their next project, and then generate a code, in which another user can then enter in to join the same workspace.
+
+- early screenshots:
+
+- <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/41daf2a0-c163-44e1-9f84-f091d9f0a6af" />
+
+- <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/d0f659bc-317e-47df-9ec3-95d697f371b5" />
+
 
 - If a user is logged in, they will be able to create multiple different workspaces under their account, as well as being able to sort, filter, edit, delete etc via a dashboard page.
 - However signing in is not required, and with a guest account you should be able to create a temporary board, with a code to share to others.
