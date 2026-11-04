@@ -13,9 +13,8 @@ import { HexColorPicker } from 'react-colorful';
 import { Popover } from "@radix-ui/themes";
 import { BsEraser } from "react-icons/bs";
 
-
 interface ToolbarProps {
-        deleteShape: (id: string) => void;
+        deleteObject: (id: string) => void;
         addShape: () => void;    
         addNote: () => void;
         selectedShapeID: string | null;
@@ -26,6 +25,8 @@ interface ToolbarProps {
         setPathColor: (color: string) => void;
         setBrushSize: (brushSize: number) => void;
         eraser: () => void;
+        undo: () => void;
+        redo: () => void;
         pathColor: string;
         brushSize: number;
 }
@@ -35,7 +36,8 @@ function Toolbar({
   eraser,
   brushSize, setBrushSize, enableDrawMode, pathColor, 
   setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, 
-  deleteShape, selectedShapeID}:ToolbarProps) {
+  undo, redo,
+  deleteObject, selectedShapeID}:ToolbarProps) {
            
     return(
 
@@ -94,15 +96,15 @@ function Toolbar({
 
           <div className="wb-toolbar-right">
 
-            <button id="wb-button-undo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo">
+            <button id="wb-button-undo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Undo" onClick={undo}>
               <MdOutlineUndo />
             </button>
 
-            <button id="wb-button-redo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Redo">
+            <button id="wb-button-redo" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Redo" onClick={redo}>
               <MdOutlineRedo /> 
             </button>
             
-            <button id="wb-button-delete" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Delete selected shape" onClick={() => selectedShapeID && deleteShape(selectedShapeID)}>
+            <button id="wb-button-delete" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Delete" onClick={() => selectedShapeID && deleteObject(selectedShapeID)}>
               <BiTrash />
             </button>
 

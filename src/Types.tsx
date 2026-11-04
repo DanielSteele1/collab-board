@@ -39,6 +39,7 @@ export type Notes = {
   x: number;
   y: number;
   fill: string;
+  text: string;
 }
 
 export type FreehandPoint = [number, number, number];

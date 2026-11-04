@@ -6,6 +6,8 @@ import { Link } from "react-router";
 import { LuTable2 } from "react-icons/lu";
 import { MdOutlineGridView } from "react-icons/md";
 
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+
 function Sidebar() {
 
    const [isCollapsed, setIsCollapsed] = useState(false);
@@ -86,6 +88,10 @@ function Sidebar() {
       className="sidebar-board-grid"
       key={id}
       to={boardURL}
+      {...(isCollapsed && {
+        "data-tooltip-id": "sidebar-tooltip",
+        "data-tooltip-content": title,
+      })}
       >
 
       <div className="sidebar-color-grid" style={{ backgroundColor: color }}>
@@ -94,7 +100,7 @@ function Sidebar() {
       {!isCollapsed ?
       <div className="sidebar-title-grid">
       {title}
-      </div> : <> </>}
+      </div> : <></>}
 
      </Link>
      ))}
@@ -105,7 +111,6 @@ function Sidebar() {
      </div>
 
     ) : (
-
 
   <div>
 
@@ -123,6 +128,10 @@ function Sidebar() {
       className="sidebar-board"
       key={id}
       to={boardURL}
+      {...(isCollapsed && {
+        "data-tooltip-id": "sidebar-tooltip",
+        "data-tooltip-content": title,
+      })}
       >
 
       <div className="sidebar-color" style={{ backgroundColor: color }}>
@@ -138,6 +147,11 @@ function Sidebar() {
 
   </div>
     )}
+
+  <ReactTooltip
+    id="sidebar-tooltip"
+    place="right"
+  />
 
     </section>
     )

@@ -1,7 +1,7 @@
 "use client";
 
 import { LiveObject } from "@liveblocks/client"
-import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence,} from "@liveblocks/react/suspense";
+import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence, useUndo, useRedo} from "@liveblocks/react/suspense";
 import { type PointerEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 
 import Sidebar from './Sidebar';
@@ -11,10 +11,9 @@ import ZoomWidget from "./ZoomWidget";
 import panzoom from "panzoom";
 
 import { getStroke } from 'perfect-freehand'
-import { getSvgPathFromStroke } from '../utils'
+import { getSvgPathFromStroke } from '../utils';
 
 import StickyNote from './StickyNote.tsx';
-
 import { PiCursorFill } from "react-icons/pi";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
@@ -23,9 +22,13 @@ const BOX_SIZE = 100;
 // types
 import type { FreehandPoint, Shape, Drag } from "../Types";
 
+
 // canvas function
 
 export function Canvas() {
+
+ const undo = useUndo();
+ const redo = useRedo();
 
   // sync shapes from room storage, then update client
 
@@ -38,7 +41,6 @@ export function Canvas() {
   });
 
   const strokes = useStorage((root) => root.strokes);
-
   const notes = useStorage((root) => root.notes);
 
   const selectShapeId = useSelf(
@@ -86,17 +88,23 @@ export function Canvas() {
         x: 2400 - (100 / 2),
         y: 1350 - (100 / 2),
          fill,
+         text: '',
       })
     );
 
 
   }, []);
 
-  // delete a shape
+  // delete an object
 
-  const deleteShape = useMutation(({ storage }, id: string) => {
+  const deleteObject = useMutation(({ storage }, id: string) => {
+
     storage.get("shapes").delete(id);
+    storage.get("notes").delete(id);
+    storage.get("strokes").delete(id);
+
   }, []);
+
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
@@ -148,6 +156,7 @@ export function Canvas() {
       instance.dispose();
       panzoomRef.current = null;
     };
+    
   }, []);
 
   //--------- store objecs into liveblocks for others to see -------------------
@@ -158,6 +167,14 @@ export function Canvas() {
       new LiveObject({ path, color })
     );
   }, []);
+
+  const saveNoteText = useMutation(({ storage }, id: string, text: string) => {
+
+    storage.get("notes").get(id)?.update({ text });
+
+  }, 
+  []
+ );
 
   const moveShape = useMutation(
     ({ storage }, id: string, x: number, y: number) => {
@@ -176,7 +193,7 @@ export function Canvas() {
     []
   );
 
-  function selectShape(id:string | null ) {
+  function selectObject(id:string | null ) {
     updateMyPresence({ selectShapeId: id });
   }
 
@@ -262,7 +279,7 @@ export function Canvas() {
       offsetY: event.clientY - bounds.top - shape.y,
     };
 
-    selectShape(id);
+    selectObject(id);
   }
 
   // move a block
@@ -358,7 +375,8 @@ export function Canvas() {
 
   function eraser() {
 
-    
+    setStartDraw(false);
+    setIndicator(true);
 
   }
 
@@ -389,18 +407,20 @@ function DecrementZoom() {
   return (
     <>
         <Toolbar
-          
           pausePanZoom={pausePanZoom}
           resumePanZoom={resumePanZoom}
           addNote={addNote}
           addShape={addShape}
-          deleteShape={deleteShape}
+          deleteObject={deleteObject}
           selectedShapeID={selectShapeId}
           indicator={Indicator}
           enableDrawMode={enableDrawMode}
           setPathColor={setPathColor}
           setBrushSize={setBrushSize}
           eraser={eraser}
+          undo={undo}
+          redo={redo}
+
           brushSize={brushSize}
           pathColor={pathColor}
 
@@ -421,7 +441,7 @@ function DecrementZoom() {
       
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) {
-          selectShape(null)
+          selectObject(null)
         }
       }}
 
@@ -443,12 +463,50 @@ function DecrementZoom() {
         {Object.entries(strokes).map(([id, savedStroke]) => (
           <path key={id} d={savedStroke.path} fill={savedStroke.color || '#000000'} />
         ))}
-        {points.length > 0 && <path d={pathData} fill={pathColor}/>}
+        {points.length > 0 && 
+          <path d={pathData} fill={pathColor} /> 
+        }
       </svg>
 
-      {Object.entries(notes ?? {}).map(([id, note]) => (
-        <StickyNote startDrag={startDrag}  key={id} id={id} note={note} />
-      ))}
+      {Object.entries(notes ?? {}).map(([id, note]) => {
+        const selectedByOther = others.some(
+          (other) => other.presence.selectShapeId === id
+        );
+
+        return (
+          <div
+            key={id}
+            style={{
+              position: "absolute",
+              left: note.x,
+              top: note.y,
+              width: 210,
+              height: 210,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border:
+                selectShapeId === id
+                  ? "5px solid #A259FF"
+                  : selectedByOther
+                    ? "4px solid #10b981"
+                    : "4px solid transparent",
+              borderRadius: 12,
+              cursor: "grab",
+              touchAction: "none",
+            }}
+          >
+            <StickyNote
+              startDrag={startDrag}
+              id={id}
+              note={note}
+              noteText={note.text}
+              saveNoteText={saveNoteText}
+             
+            />
+          </div>
+        );
+      })}
 
       {Object.entries(shapes ?? {}).map(([id, shape]) => {
 

@@ -5,6 +5,8 @@ import type { Notes } from "../Types";
 interface StickyNoteProps {
     id: string;
     note: Notes;
+    noteText: string;
+    saveNoteText: (id: string, text: string) => void;
     startDrag: (
         event: PointerEvent<HTMLButtonElement>,
         id: string,
@@ -13,20 +15,22 @@ interface StickyNoteProps {
     ) => void;
 }
 
-function StickyNote({ id, note, startDrag }: StickyNoteProps) {
+function StickyNote({ id, note, saveNoteText, startDrag }: StickyNoteProps) {
 
     return (
         <button
             className="sticky-note"
             onPointerDown={(event) => startDrag(event, id, note, "note")}
             style={{
-                position: "absolute",
-                left: note.x,
-                top: note.y,
                 backgroundColor: note.fill,
             }}
         >
-            hey!
+            <input type="text"
+             className="note-text"
+             placeholder="Write something here..."
+             contentEditable="true"
+             value={note.text} 
+             onChange={(event) => saveNoteText(id, event.target.value)} />
         </button>
     );
 }
