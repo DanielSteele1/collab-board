@@ -6,7 +6,7 @@ import type { WhiteboardCollection } from '../Types.tsx';
 import WhiteboardCard from './WhiteboardCard.tsx';
 import WhiteboardTable from './whiteboard-table.tsx';
 import { useState } from 'react';
-import { BsFilterLeft } from "react-icons/bs";
+import { BsFilterLeft} from "react-icons/bs";
 import { TiSortAlphabetically } from "react-icons/ti";
 
 import { MdOutlineDateRange } from "react-icons/md";
@@ -15,52 +15,9 @@ import CreateBoardModal from './create-board-modal.tsx';
 import { DropdownMenu } from "radix-ui";
 import { BiX } from "react-icons/bi";
 
-
-  const moodboardId = crypto.randomUUID();
-  const ideasId = crypto.randomUUID();
-  const projectsId = crypto.randomUUID();
-  const wireframeId = crypto.randomUUID();
-
-  const defaultBoards: WhiteboardCollection = [
-  {
-    id: ideasId,
-    title: "Ideas",
-    description: "A place for brainstorms",
-    color:  "#c681f5",
-    boardURL: `/whiteboard/${ideasId}`,
-    createdAt: Date.parse("2026-02-26"),
-    createdBy: 'Auto-Generated'
-
-  },
-  {
-    id: projectsId,
-    title: "Project Planning",
-    description: "Plan tasks and milestones",
-    color: "#4F8EF7",
-    boardURL: `/whiteboard/${projectsId}`,
-    createdAt: Date.parse('2025-06-14'),
-    createdBy: 'Auto-Generated'
-  },
-  {
-    id: moodboardId,
-    title: "Moodboard",
-    description: "Moodboard",
-    color: "#ddab4e",
-    boardURL: `/whiteboard/${moodboardId}`,
-    createdAt: Date.parse('2024-12-14'),
-    createdBy: 'Auto-Generated'
-  },
-  {
-    id: wireframeId,
-    title: "Wireframe",
-    description: "Wrireframing work",
-    color: "#52c258",
-    boardURL: `/whiteboard/${wireframeId}`,
-    createdAt: Date.parse('2022-10-14'),
-    createdBy: 'Auto-Generated',
-  },
-
-];
+import { defaultBoards } from '../Types';
+import { Link } from "react-router";
+import { FiUser } from "react-icons/fi";
 
 function Dashboard(){
 
@@ -147,18 +104,30 @@ function Dashboard(){
         <div className="dashboard-welcome">
 
          <span className="heading"> Welcome, User! </span>
+
          <div className="dashboard-sub-heading"> Click on the options below to get started.  </div>
-         <div className="dashboard-sub-heading"> Either create a new board, join an existing board or search through your current workspaces.</div>
-        
+         <div className="dashboard-sub-heading"> Create a new board, join an existing board or search through your current workspaces.</div>
+      
+         <div className="dashboard-buttons-tray">           
+          <CreateBoardModal onCreate={CreateWhiteboard} />
+
+          <Link to="/Login">
+          <button className="dashboard-login"> 
+          
+          <FiUser /> Login
+          
+          </button>
+          
+           </Link>
+         </div>
+
         </div>
 
         <div className="dashboard-toolbar">
 
           <div className='toolbar-left'>
 
-          <CreateBoardModal onCreate={CreateWhiteboard} />
-
-          <button> <MdOutlinePassword /> Join a workspace via a code </button>
+          <button> <MdOutlinePassword /> Join workspace via code </button>
           
           <input 
           type="search" 
@@ -173,7 +142,7 @@ function Dashboard(){
            <DropdownMenu.Root> 
             <DropdownMenu.Trigger asChild> 
             <button className="grid-toggle">
-             <BsFilterLeft /> Sort by
+             <BsFilterLeft /> Sort by {sortBy}
             </button>
 
             </DropdownMenu.Trigger>
@@ -188,17 +157,18 @@ function Dashboard(){
               </DropdownMenu.Content>
             </DropdownMenu.Root>
 
-            <div className="sort-by-indicator">
-             ( {sortBy} )
-            </div>
-
             <button className="grid-toggle" onClick={ () => setView(prev => !prev)}>
              {view ? (<div className="view-btn"> <LuTable2 /> </div>) : (<div className="view-btn"> <MdOutlineGridView /> </div>) }
             </button>
           </div>
         </div>
 
-          <div className="whiteboards">
+ 
+        <div className="whiteboards">
+
+        <div className="boards-heading">
+          Your Boards
+        </div>
 
         {view ? (
 

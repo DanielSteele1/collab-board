@@ -49,7 +49,7 @@ function WhiteboardTable({ boards, onDelete }:WhiteboardCardProps){
                         <Table.Cell className="table-description"> {board.description} </Table.Cell>
                         <Table.Cell className="table-date"> {formatDistance(new Date(board.createdAt), new Date(), {addSuffix: true})} </Table.Cell>
                         <Table.Cell>
-                            <Link className="table-link" to={board.boardURL}> <button> Open Whiteboard <FaArrowRight /></button> </Link>
+                            <Link className="table-link" to={board.boardURL}> <button> Open <FaArrowRight /></button> </Link>
                         </Table.Cell>
                         <Table.Cell>
                         <button className="table-delete" onClick={() => onDelete(board.id)}> <BiTrash/> Delete </button>

@@ -11,7 +11,7 @@ interface StickyNoteProps {
         event: PointerEvent<HTMLButtonElement>,
         id: string,
         item: Readonly<Notes>,
-        itemType: "shape" | "note",
+        itemType: "note",
     ) => void;
 }
 
@@ -25,10 +25,11 @@ function StickyNote({ id, note, saveNoteText, startDrag }: StickyNoteProps) {
                 backgroundColor: note.fill,
             }}
         >
-            <input type="text"
+            <textarea
              className="note-text"
              placeholder="Write something here..."
              contentEditable="true"
+             maxLength={200}
              value={note.text} 
              onChange={(event) => saveNoteText(id, event.target.value)} />
         </button>

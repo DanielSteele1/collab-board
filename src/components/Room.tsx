@@ -25,20 +25,19 @@ interface RoomProps{
        initialPresence={{ cursor: null, selectShapeId: null}}
        id={boardId}
        initialStorage={{
-        shapes: new LiveMap([
-
-            [
-                "shape-1",
-                new LiveObject({ x: 600, y: 120, fill: "#f59e0b"}),
-            ],
-
-            [
-                "shape-2",
-                new LiveObject({ x: 480, y: 200, fill: "#859e0b"}),
-            ],
-        ]),
+        shapes: new LiveMap(),
         strokes: new LiveMap(),
         notes: new LiveMap(),
+
+        text: new LiveMap([
+
+            [
+                "text-1",
+                new LiveObject({ x: 2400 - 105, y: 1350 - 105, text: "Hello World!"}),
+            ],
+
+        ]),
+
        }}
        >
         <ClientSideSuspense fallback={<div className="loader">

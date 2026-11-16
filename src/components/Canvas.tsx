@@ -3,10 +3,13 @@
 import { LiveObject } from "@liveblocks/client"
 import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence, useUndo, useRedo} from "@liveblocks/react/suspense";
 import { type PointerEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
+import { PiCursorFill } from "react-icons/pi";
+
+
 
 import Sidebar from './Sidebar';
 import Toolbar from "./Toolbar";
-import ZoomWidget from "./ZoomWidget";
+import ZoomWidget from "./ZoomWidget.tsx";
 
 import panzoom from "panzoom";
 
@@ -14,14 +17,14 @@ import { getStroke } from 'perfect-freehand'
 import { getSvgPathFromStroke } from '../utils';
 
 import StickyNote from './StickyNote.tsx';
-import { PiCursorFill } from "react-icons/pi";
 
-const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
-const BOX_SIZE = 100;
+import InsertText from './InsertText.tsx';
 
 // types
 import type { FreehandPoint, Shape, Drag } from "../Types";
 
+const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
+const BOX_SIZE = 100;
 
 // canvas function
 
@@ -42,6 +45,7 @@ export function Canvas() {
 
   const strokes = useStorage((root) => root.strokes);
   const notes = useStorage((root) => root.notes);
+  const text = useStorage((root) => root.text);
 
   const selectShapeId = useSelf(
     (me) => me.presence.selectShapeId
@@ -69,7 +73,7 @@ export function Canvas() {
         new LiveObject({
            x: 2400 - (100 / 2),
            y: 1350 - (100 / 2),
-            fill,
+           fill,
         })
     );
 
@@ -95,6 +99,17 @@ export function Canvas() {
 
   }, []);
 
+  const addText = useMutation(({ storage }, x: number, y: number) => {
+    const id = crypto.randomUUID();
+
+    storage.get("text").set(
+      id,
+      new LiveObject({ x, y, text: "Text" })
+    );
+
+    return id;
+  }, []);
+
   // delete an object
 
   const deleteObject = useMutation(({ storage }, id: string) => {
@@ -102,16 +117,17 @@ export function Canvas() {
     storage.get("shapes").delete(id);
     storage.get("notes").delete(id);
     storage.get("strokes").delete(id);
+    storage.get("text").delete(id);
 
   }, []);
-
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
   const isPanModeRef = useRef(false);
+  const hasCenteredOnTextRef = useRef(false);
 
   const [Indicator, setIndicator] = useState(false);
-  const [zoomAmount, setZoomAmount] = useState(100);
+  const [zoomAmount, setZoomAmount] = useState(50);
 
   // color of the draw path element
   const [pathColor, setPathColor] = useState('#A259FF');
@@ -124,6 +140,19 @@ export function Canvas() {
   const [points, setPoints] = useState<FreehandPoint[]>([]);
 
   const dragRef = useRef<Drag | null>(null);
+
+  function getCanvasPoint(clientX: number, clientY: number) {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+
+    const bounds = canvas.getBoundingClientRect();
+    const scale = panzoomRef.current?.getTransform().scale ?? 1;
+
+    return {
+      x: (clientX - bounds.left) / scale,
+      y: (clientY - bounds.top) / scale,
+    };
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -147,6 +176,11 @@ export function Canvas() {
         (viewport.clientWidth - canvas.offsetWidth) / 2,
         (viewport.clientHeight - canvas.offsetHeight) / 2,
       );
+      instance.zoomAbs(
+        viewport.clientWidth / 2,
+        viewport.clientHeight / 2,
+        1,
+      );
     }
 
     instance.on("transform", syncZoom);
@@ -158,6 +192,36 @@ export function Canvas() {
     };
     
   }, []);
+
+  useEffect(() => {
+    if (hasCenteredOnTextRef.current) return;
+
+    const firstText = Object.values(text ?? {})[0];
+    const viewport = canvasRef.current?.parentElement;
+    const instance = panzoomRef.current;
+    if (!firstText || !viewport || !instance) return;
+
+    const { scale } = instance.getTransform();
+    instance.moveTo(
+      viewport.clientWidth / 2 - firstText.x * scale,
+      viewport.clientHeight / 2 - firstText.y * scale,
+    );
+    hasCenteredOnTextRef.current = true;
+  }, [text]);
+
+  function addTextAtViewportCenter() {
+    const viewport = canvasRef.current?.parentElement;
+    if (!viewport) return;
+
+    const bounds = viewport.getBoundingClientRect();
+    const point = getCanvasPoint(
+      bounds.left + bounds.width / 2,
+      bounds.top + bounds.height / 2,
+    );
+    if (!point) return;
+
+    selectObject(addText(point.x, point.y));
+  }
 
   //--------- store objecs into liveblocks for others to see -------------------
 
@@ -176,6 +240,14 @@ export function Canvas() {
   []
  );
 
+ const saveText = useMutation(({ storage }, id: string, text: string) => {
+
+  storage.get("text").get(id)?.update({text});
+
+ }, 
+ []
+);
+
   const moveShape = useMutation(
     ({ storage }, id: string, x: number, y: number) => {
 
@@ -188,6 +260,15 @@ export function Canvas() {
     ({ storage }, id: string, x: number, y: number) => {
 
       storage.get("notes").get(id)?.update({ x, y });
+
+    },
+    []
+  );
+
+   const moveText = useMutation(
+    ({ storage }, id: string, x: number, y: number) => {
+
+      storage.get("text").get(id)?.update({ x, y });
 
     },
     []
@@ -254,18 +335,18 @@ export function Canvas() {
 
   function startDrag(
 
-    event: PointerEvent<HTMLButtonElement>,
+    event: PointerEvent<HTMLElement>,
     id: string,
-    shape: Readonly<Shape>,
-    itemType: "shape" | "note"
+    item: Readonly<{ x: number, y: number}>,
+    itemType: "shape" | "note" | "text"
 
   ) {
 
     if (isPanModeRef.current) return;
     if(event.button !== 0 || dragRef.current) return;
 
-    const bounds = canvasRef.current?.getBoundingClientRect();
-    if(!bounds) return;
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) return;
 
     event.stopPropagation();
 
@@ -275,8 +356,8 @@ export function Canvas() {
       pointerId: event.pointerId,
       itemId: id,
       itemType,
-      offsetX: event.clientX - bounds.left - shape.x,
-      offsetY: event.clientY - bounds.top - shape.y,
+      offsetX: point.x - item.x,
+      offsetY: point.y - item.y,
     };
 
     selectObject(id);
@@ -289,19 +370,19 @@ export function Canvas() {
     const drag = dragRef.current;
     if(!drag || drag.pointerId !== event.pointerId ) return;
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) return;
 
-    moveShape(
-      drag.itemId,
-      event.clientX - bounds.left - drag.offsetX,
-      event.clientY - bounds.top - drag.offsetY,
-    );
+    const x = point.x - drag.offsetX;
+    const y = point.y - drag.offsetY;
 
-    moveNote(
-      drag.itemId,
-      event.clientX - bounds.left - drag.offsetX,
-      event.clientY - bounds.top - drag.offsetY,
-    );
+    if (drag.itemType === "shape") {
+      moveShape(drag.itemId, x, y);
+    } else if (drag.itemType === "text") {
+      moveText(drag.itemId, x, y);
+    } else {
+      moveNote(drag.itemId, x, y);
+    }
   }
 
   function endDrag(event: PointerEvent<HTMLDivElement>) {
@@ -314,12 +395,9 @@ export function Canvas() {
 
   function handleCanvasPointerMove(event: PointerEvent<HTMLDivElement>) {
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    const point = getCanvasPoint(event.clientX, event.clientY);
     updateMyPresence({
-      cursor: {
-        x: event.clientX - bounds.left,
-        y: event.clientY - bounds.top,
-      }
+      cursor: point,
     });
 
     moveDrag(event);
@@ -410,6 +488,7 @@ function DecrementZoom() {
           pausePanZoom={pausePanZoom}
           resumePanZoom={resumePanZoom}
           addNote={addNote}
+          addText={addTextAtViewportCenter}
           addShape={addShape}
           deleteObject={deleteObject}
           selectedShapeID={selectShapeId}
@@ -467,6 +546,52 @@ function DecrementZoom() {
           <path d={pathData} fill={pathColor} /> 
         }
       </svg>
+
+      {Object.entries(text ?? {}).map(([id, text]) => {
+
+        const selectedByOther = others.some(
+          (other) => other.presence.selectShapeId === id
+        );
+
+       return(
+        <div
+         key={id}
+         style={{
+              position: "absolute",
+              left: text.x,
+              top: text.y,
+              transform: "translate(-50%, -50%)",
+              width: "fit-content",
+              height: "fit-content",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: '10rem',
+              border:
+                selectShapeId === id
+                  ? "4px solid #A259FF"
+                  : selectedByOther
+                    ? "4px solid #10b981"
+                    : "4px solid transparent",
+              borderRadius: 12,
+              cursor: "grab",
+              touchAction: "none",
+            }}
+          >
+
+        <InsertText 
+        id={id} 
+        text={text} 
+
+        startDrag={startDrag}
+        saveText={saveText}
+
+        />
+
+        </div>
+       );
+
+      })};
 
       {Object.entries(notes ?? {}).map(([id, note]) => {
         const selectedByOther = others.some(

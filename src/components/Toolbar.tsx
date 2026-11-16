@@ -17,6 +17,7 @@ interface ToolbarProps {
         deleteObject: (id: string) => void;
         addShape: () => void;    
         addNote: () => void;
+        addText: () => void;
         selectedShapeID: string | null;
         pausePanZoom: () => void;
         resumePanZoom: () => void;
@@ -32,7 +33,7 @@ interface ToolbarProps {
 }
 
 function Toolbar({
-  addNote,
+  addNote, addText,
   eraser,
   brushSize, setBrushSize, enableDrawMode, pathColor, 
   setPathColor, indicator, pausePanZoom, resumePanZoom, addShape, 
@@ -81,7 +82,7 @@ function Toolbar({
                  </Popover.Content>
                 </Popover.Root>
                 
-            <button data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add text">
+            <button type="button" data-tooltip-id="toolbar-tooltip" data-tooltip-content="Add text" onClick={addText}>
              <IoText />
             </button>
 

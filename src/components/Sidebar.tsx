@@ -7,6 +7,9 @@ import { LuTable2 } from "react-icons/lu";
 import { MdOutlineGridView } from "react-icons/md";
 
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { BsClipboard } from "react-icons/bs";
+
+import { defaultBoards } from '../Types';
 
 function Sidebar() {
 
@@ -17,7 +20,7 @@ function Sidebar() {
    const [boards] = useState<WhiteboardCollection>(() => {
     
       const saved = localStorage.getItem('whiteboardsArray');
-      return saved ? (JSON.parse(saved) as WhiteboardCollection) : [];
+      return saved ? (JSON.parse(saved) as WhiteboardCollection) : defaultBoards;
    })
 
    function searchBoards() {
@@ -34,7 +37,7 @@ function Sidebar() {
     return (
     <section className={isCollapsed ? "sidebar-collapsed" : "sidebar"}>
 
-      <div className="sidebar-top">
+     <div className="sidebar-top">
 
       <button
         className="sidebar-collapse"
@@ -44,14 +47,15 @@ function Sidebar() {
         {isCollapsed ? <FaArrowRight /> : <FaArrowLeft />}
       </button>
 
-      {!isCollapsed ?
-      <div className="sidebar-title">
-       Your Boards
-      </div>
-      : <> </>}
-
       </div>
 
+      {!isCollapsed &&
+      <div className="sidebar-heading">
+          Your Boards
+          <BsClipboard />
+      </div>
+      }
+     
       {!isCollapsed && (
         <>
         <div className="sidebar-search-bar">
@@ -64,7 +68,6 @@ function Sidebar() {
           >
             {isViewSwitch ? <LuTable2 /> : <MdOutlineGridView />}
           </button>
-
         </div>
         </>
       )}
@@ -77,7 +80,7 @@ function Sidebar() {
 
       <span className="sidebar-no-results">
        {boards.length === 0
-         ? "No results. Create a board first to get started."
+         ? "No boards yet. Create a board to get started."
          : `No boards found for "${searchTerm}".`}
       </span>
       ) : (
@@ -99,7 +102,7 @@ function Sidebar() {
 
       {!isCollapsed ?
       <div className="sidebar-title-grid">
-      {title}
+      {title} 
       </div> : <></>}
 
      </Link>
@@ -118,7 +121,7 @@ function Sidebar() {
 
       <span className="sidebar-no-results">
        {boards.length === 0
-         ? "No results. Create a board first to get started."
+        ? "No boards yet. Create a board to get started."
          : `No boards found for "${searchTerm}".`}
       </span>
       ) : (
