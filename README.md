@@ -14,7 +14,12 @@ I will not go so far as to use TLDraw for this project, as this abstracts away h
 ---
 ## 📷 Screenshots - Everything is subject to change including this UI
 
-<img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/c6b3b482-bb46-40c3-8e9f-d46e39ef4598" />
+<img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/ea7e2a60-97c0-46e5-b8d5-b0a265a3437e" />
+
+<img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/99ffefb5-a2ec-4f60-b7f8-4c8c974d922a" />
+
+<img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/89116697-2ccc-4fd3-9a5f-35478b9adede" />
+
 
 <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/d0f659bc-317e-47df-9ec3-95d697f371b5" />
 
