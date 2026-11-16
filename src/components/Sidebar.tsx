@@ -1,5 +1,8 @@
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import type { WhiteboardCollection } from "../Types";
+
+
+import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
+import { TbLayoutSidebarRightCollapse } from "react-icons/tb";
 
 import { useState } from "react";
 import { Link } from "react-router";
@@ -42,9 +45,8 @@ function Sidebar() {
       <button
         className="sidebar-collapse"
         onClick={() => setIsCollapsed(prev => !prev)}
-        aria-label={isCollapsed ? "Expand boards sidebar" : "Collapse boards sidebar"}
       >
-        {isCollapsed ? <FaArrowRight /> : <FaArrowLeft />}
+        {isCollapsed ? <TbLayoutSidebarRightCollapse /> : <div> <TbLayoutSidebarLeftCollapseFilled /> Quick Switch</div> }
       </button>
 
       </div>

@@ -26,6 +26,7 @@ function InsertText({ id, text, saveText, startDrag }: TextProps) {
         <input 
         className='Text-text'
         type="text" 
+        size={Math.max(text.text.length, 1)}
         value={text.text} 
         contentEditable="true"
         maxLength={200}
