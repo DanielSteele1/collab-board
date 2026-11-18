@@ -18,6 +18,9 @@ I will not go so far as to use TLDraw for this project, as this abstracts away h
 
 <img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/99ffefb5-a2ec-4f60-b7f8-4c8c974d922a" />
 
+<img width="647" height="172" alt="image" src="https://github.com/user-attachments/assets/dcfe3fbc-5fc7-4eb0-b8a5-c962dadb8ed5" />
+
+
 <img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/89116697-2ccc-4fd3-9a5f-35478b9adede" />
 
 
