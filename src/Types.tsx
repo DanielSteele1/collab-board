@@ -45,6 +45,9 @@ export type Text = {
   x: number;
   y: number;
   text: string;
+  fill?: string;
+  size?: number;
+  boldness?: number;
 }
 
 

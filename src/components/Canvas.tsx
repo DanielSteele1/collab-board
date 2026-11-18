@@ -25,6 +25,9 @@ import type { FreehandPoint, Shape, Drag } from "../Types";
 
 const COLORS = ["#f59e0b", "#8b5cf6", "#10b981", "#ec4899"];
 const BOX_SIZE = 100;
+const DefaultSize = 48;
+const DefaultColor = "#FFFFFF";
+const DefaultBoldness = 40;
 
 // canvas function
 
@@ -96,7 +99,6 @@ export function Canvas() {
       })
     );
 
-
   }, []);
 
   const addText = useMutation(({ storage }, x: number, y: number) => {
@@ -104,7 +106,14 @@ export function Canvas() {
 
     storage.get("text").set(
       id,
-      new LiveObject({ x, y, text: "Text" })
+      new LiveObject({ 
+        x, 
+        y, 
+        fill: DefaultColor,
+        size: DefaultSize,
+        text: "Text",
+        boldness: DefaultBoldness,
+       })
     );
 
     return id;
@@ -232,6 +241,7 @@ export function Canvas() {
     );
   }, []);
 
+
   const saveNoteText = useMutation(({ storage }, id: string, text: string) => {
 
     storage.get("notes").get(id)?.update({ text });
@@ -247,6 +257,32 @@ export function Canvas() {
  }, 
  []
 );
+
+ const saveTextBoldness = useMutation(({ storage }, id: string, boldness: number) => {
+
+  storage.get("text").get(id)?.update({ boldness });
+
+ }, 
+ []
+);
+
+ const saveTextSize = useMutation(({ storage }, id: string, size: number) => {
+
+  storage.get("text").get(id)?.update({ size });
+
+ }, 
+ []
+); 
+
+const saveTextColor = useMutation(({ storage }, id: string, fill: string) => {
+
+  storage.get("text").get(id)?.update({ fill });
+
+ }, 
+ []
+);
+
+
 
   const moveShape = useMutation(
     ({ storage }, id: string, x: number, y: number) => {
@@ -482,6 +518,7 @@ function DecrementZoom() {
   setZoomAmount(Math.round(zoom * 100));
 }
 
+
   return (
     <>
         <Toolbar
@@ -582,7 +619,11 @@ function DecrementZoom() {
         <InsertText 
         id={id} 
         text={text} 
+        saveTextColor={saveTextColor}
+        saveTextSize={saveTextSize}
+        saveTextBoldness={saveTextBoldness}
 
+        isSelected={selectShapeId === id}
         startDrag={startDrag}
         saveText={saveText}
 
