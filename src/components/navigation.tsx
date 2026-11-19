@@ -1,13 +1,16 @@
 import { Link, useLocation } from "react-router";
 import { FiUser } from "react-icons/fi";
-import { LiaSun } from "react-icons/lia";
+import { LiaMoon, LiaSun } from "react-icons/lia";
 import { HiOutlineMoon } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import { GrCursor } from "react-icons/gr";
-import { MdOutlineDraw } from "react-icons/md";
+import { MdAccountCircle, MdOutlineDraw } from "react-icons/md";
 import { IoArrowBack } from "react-icons/io5";
+
+import useStore from "../ZustandStore";
+import { DropdownMenu } from "@radix-ui/themes";
 
 interface NavigationProps {
   toggleLight: React.MouseEventHandler<HTMLButtonElement>;
@@ -15,6 +18,11 @@ interface NavigationProps {
 }
 
 function Navigation({ isLightOn, toggleLight }: NavigationProps) {
+
+  const userProfile = useStore((state: any) => state.userProfile);
+
+  const isGuest = useStore((state: any) => state.isGuest);
+  const isLoggedIn = useStore((state: any) => state.isLoggedIn);
 
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -42,12 +50,7 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
               <MdOutlineDraw /> Create a Workspace
             </Link>
             )
-             }
-      
-
-            <Link className="nav-item" id="login-button" to="/login">
-              <FiUser /> Login
-            </Link>
+           }
 
             <button
               className="nav-theme-button"
@@ -55,8 +58,39 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
               onClick={toggleLight}
               aria-label={`Switch to ${isLightOn ? "dark" : "light"} theme`}
             >
-              {isLightOn ? <LiaSun /> : <HiOutlineMoon />}
+              {isLightOn ? <LiaSun /> : <LiaMoon />}
             </button>
+      
+
+            {isGuest && isLoggedIn ? (
+
+            <Link className="nav-item" id="login-button" to="/login">
+              <FiUser /> Login
+            </Link>
+
+            ):(
+              <div className="user-navigation">
+                <DropdownMenu.Root> 
+                  <DropdownMenu.Trigger>
+
+                <>
+                <div className="userName"> {userProfile.name} </div>
+                <img className="userPicture"  src={userProfile.picture} />
+                </>
+                 
+                </DropdownMenu.Trigger>
+
+                <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}> 
+                   <DropdownMenu.Item className="DropdownMenuItem">
+                     <div className="LeftSlot"> <MdAccountCircle /> </div> View Account
+                   </DropdownMenu.Item>
+                </DropdownMenu.Content>
+
+                </DropdownMenu.Root>
+              </div>
+            )
+            }
+
         </div>
       </div>
 

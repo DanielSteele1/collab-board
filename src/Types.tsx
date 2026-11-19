@@ -1,4 +1,18 @@
 
+
+
+
+export type User = {
+
+  id: number;
+  name: string;
+  
+  email: string;
+  isGuest: boolean;
+}
+
+
+
 export interface WhiteboardType {
   id: string,
   title: string;

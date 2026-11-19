@@ -19,10 +19,16 @@ import { defaultBoards } from '../Types';
 import { Link } from "react-router";
 import { FiUser } from "react-icons/fi";
 
+import useStore from "../ZustandStore.tsx";
+import { Button } from "@radix-ui/themes";
+
 function Dashboard(){
 
   const [searchTerm, setSearchTerm] = useState('');
   const [view, setView] = useState(true);
+
+  const userProfile = useStore((state: any) => state.userProfile);
+  const isGuest = useStore((state: any) => state.isguest);
   
   // possible filters
 
@@ -94,6 +100,7 @@ function Dashboard(){
               return 0;
     }})
 
+
    return (
      <section className="dashboard-container">
 
@@ -103,7 +110,9 @@ function Dashboard(){
 
         <div className="dashboard-welcome">
 
-         <span className="heading"> Welcome, User! </span>
+         <div className="dashboard-heading-wrap">
+          <span className="heading"> Welcome, {userProfile.name} </span>
+         </div>
 
          <div className="dashboard-sub-heading"> Click on the options below to get started.  </div>
          <div className="dashboard-sub-heading"> Create a new board, join an existing board or search through your current workspaces.</div>
@@ -111,7 +120,10 @@ function Dashboard(){
          <div className="dashboard-buttons-tray">           
           <CreateBoardModal onCreate={CreateWhiteboard} />
 
-          <Link to="/Login">
+
+          {isGuest ? (
+
+            <Link to="/Login">
           <button className="dashboard-login"> 
           
           <FiUser /> Login
@@ -119,6 +131,26 @@ function Dashboard(){
           </button>
           
            </Link>
+         
+        ) 
+        : 
+        (
+          <div className="dashboard-account">
+
+            <Link to="/Accounts">
+            <Button variant="outline">
+           
+
+          <FiUser /> View guest account
+
+            </Button>
+            </Link>
+
+          </div>
+          
+          ) 
+        }
+          
          </div>
 
         </div>

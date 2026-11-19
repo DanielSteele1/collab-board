@@ -12,6 +12,7 @@ import "@radix-ui/themes/styles.css";
 import {Theme} from "@radix-ui/themes";
 import { useEffect, useState } from 'react';
 import { Analytics } from "@vercel/analytics/react"
+import Accounts from './components/Accounts';
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
       <Route path='/Dashboard' element={<Dashboard />}> Dashboard </Route>
       <Route path='/whiteboard/:boardId' element={<Whiteboard />} />
       <Route path='*' element={<FourOFour />}>  </Route>
+      <Route path='/Accounts' element={<Accounts />}> Accounts </Route>
 
       </Routes>
 

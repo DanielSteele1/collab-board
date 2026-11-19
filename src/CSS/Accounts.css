@@ -1,0 +1,32 @@
+
+
+.accounts-backing{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 0dvh;
+    background-color: var(--gray-2);
+
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.accounts{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.user-name{
+    display: flex;  
+    font-size: 2.5rem;
+}
+
+.user-name img{
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+}

@@ -5,8 +5,6 @@ import {useStorage, useMutation, useOthers, useSelf, useUpdateMyPresence, useUnd
 import { type PointerEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import { PiCursorFill } from "react-icons/pi";
 
-
-
 import Sidebar from './Sidebar';
 import Toolbar from "./Toolbar";
 import ZoomWidget from "./ZoomWidget.tsx";
@@ -17,8 +15,9 @@ import { getStroke } from 'perfect-freehand'
 import { getSvgPathFromStroke } from '../utils';
 
 import StickyNote from './StickyNote.tsx';
-
 import InsertText from './InsertText.tsx';
+
+import useStore from "../ZustandStore.tsx";
 
 // types
 import type { FreehandPoint, Shape, Drag } from "../Types";
@@ -32,6 +31,8 @@ const DefaultBoldness = 40;
 // canvas function
 
 export function Canvas() {
+
+ const userProfile = useStore((state: any) => state.userProfile);
 
  const undo = useUndo();
  const redo = useRedo();
@@ -129,6 +130,7 @@ export function Canvas() {
     storage.get("text").delete(id);
 
   }, []);
+
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
@@ -281,8 +283,6 @@ const saveTextColor = useMutation(({ storage }, id: string, fill: string) => {
  }, 
  []
 );
-
-
 
   const moveShape = useMutation(
     ({ storage }, id: string, x: number, y: number) => {
@@ -558,6 +558,7 @@ function DecrementZoom() {
       onPointerDown={(event) => {
         if (event.target === event.currentTarget) {
           selectObject(null)
+
         }
       }}
 
@@ -575,9 +576,15 @@ function DecrementZoom() {
           touchAction: "none",
 
         }}
+
+
       >
         {Object.entries(strokes).map(([id, savedStroke]) => (
-          <path key={id} d={savedStroke.path} fill={savedStroke.color || '#000000'} />
+          <path 
+          key={id} 
+          d={savedStroke.path} 
+          fill={savedStroke.color || '#000000'}  
+          />
         ))}
         {points.length > 0 && 
           <path d={pathData} fill={pathColor} /> 
@@ -617,6 +624,7 @@ function DecrementZoom() {
           >
 
         <InsertText 
+        
         id={id} 
         text={text} 
         saveTextColor={saveTextColor}
@@ -713,7 +721,7 @@ function DecrementZoom() {
         key={connectionId}
         aria-hidden="true"
         style={{
-          
+        
         position: "absolute",
         left: presence.cursor.x,
         top: presence.cursor.y,
@@ -724,7 +732,15 @@ function DecrementZoom() {
         transform: "translate(6px, 6px)",
 
         }}>
-          <PiCursorFill /> <span> </span>
+          <div className="user-cursor">
+           <PiCursorFill /> 
+            <span className="cursor-info" style={{
+              
+            }}> 
+            <img src={userProfile.picture} /> 
+             <span> {userProfile.name} </span>
+           </span>
+           </div>
         </div> ) : null
       )}
 

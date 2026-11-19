@@ -5,9 +5,7 @@ import { MdOutlineDraw } from "react-icons/md";
 
 function Home() {
 
-
   function StartAsGuest() {
-
 
     window.location.href = "dashboard";
   }

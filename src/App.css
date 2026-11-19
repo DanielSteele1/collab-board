@@ -536,6 +536,12 @@ color: #A259FF;
   border-radius: 8px;
 }
 
+.dashboard-heading-wrap{
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+
 .heading{
   font-size: 3.0rem;
   height: 100px;
@@ -1283,7 +1289,7 @@ margin-top: 50px;
   padding-left: 10px;
 }
 
-.text-setColor, .text-setSize, .text-setBold{
+.text-setColor, .text-setSize, .text-setBold {
 display: flex;
 height: 30px;
 width: fit-content;
@@ -1433,6 +1439,64 @@ padding: 10px;
   margin-right: 20px;
 }
 
+.user-navigation{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  height: fit-content;
+  width: fit-content;
+
+  padding: 10px;
+
+}
+
+.userPicture{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.userName{
+  padding: 10px;
+  font-size: 1.0rem;
+}
+
+.user-cursor{
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  flex-direction: row;
+  font-size: 1.0rem;
+}
+
+.user-cursor img{
+  height: 30px;
+  width: 30px; 
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.user-cursor svg{
+  margin-right: 10px;
+}
+
+.user-cursor span {
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+.cursor-info{
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  background-color: #A259FF;
+  padding: 2px;
+  border-radius: 10px;
+}
+
 
 @media(max-width: 750px) {
 
@@ -1567,6 +1631,23 @@ padding: 10px;
   .dashboard {
     width: 80%;
     padding: 15px;
+  }
+
+  .heading{
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+  }
+
+  .dashboard-heading-cursor{
+    width: 28px;
+    height: 28px;
+  }
+
+  .dashboard-heading-cursor--violet{
+    right: 4%;
+  }
+
+  .dashboard-heading-cursor--teal{
+    left: 4%;
   }
 
   button{
