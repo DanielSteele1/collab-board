@@ -1,13 +1,13 @@
 # Real-time-collaborative-Whiteboard
-A real time collaborative whiteboard application, coded in ReactJs and TS, and utilising Live blocks for the real time capabilities.
+A real time collaborative whiteboard application, coded in React.Js and Typescript, and utilising Live blocks for the real time capabilities.
 
 - Users can create a whiteboard to plan their next project, and then generate a code, in which another user can then enter in to join the same workspace.
 
 - If a user is logged in, they will be able to create multiple different workspaces under their account, as well as being able to sort, filter, edit, delete etc via a dashboard page.
 - However signing in is not required, and with a guest account you should be able to create a temporary board, with a code to share to others.
 
-- I've chosen to use Liveblocks for the collaborative capabilities of the app because this is my first time creating such an app, and so I didn't want to spend too much time learning something that has already been abstracted away for me. 
-However, I still want to understand what's happening under the hood with WebSockets, and this project is a good vehicle for it.
+- I've chosen to use Live-blocks for the collaborative capabilities of the app because this is my first time creating such an app, and so I didn't want to spend too much time learning something that has already been abstracted away for me. 
+However, I still want to understand what's happening under the hood with Web Sockets, and this project is a good vehicle for it.
 
 I will not go so far as to use TLDraw for this project, as this abstracts away half the application.
 
@@ -20,9 +20,7 @@ I will not go so far as to use TLDraw for this project, as this abstracts away h
 
 <img width="647" height="172" alt="image" src="https://github.com/user-attachments/assets/dcfe3fbc-5fc7-4eb0-b8a5-c962dadb8ed5" />
 
-
 <img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/89116697-2ccc-4fd3-9a5f-35478b9adede" />
-
 
 <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/d0f659bc-317e-47df-9ec3-95d697f371b5" />
 
