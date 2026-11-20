@@ -23,6 +23,7 @@ function Login() {
     const generateRandomNumber = Math.floor(Math.random() * 1_000_000);
     const generatedPlaceholder = `https://api.dicebear.com/10.x/fun-emoji/svg?seed=${generateRandomNumber}`;
 
+    const guestId = crypto.randomUUID();
 
     try {
       const response = await fetch(generatedPlaceholder);
@@ -33,14 +34,13 @@ function Login() {
 
       setUserProfile({
 
-      id: 'GuestId',
+      id: guestId,
       name: 'Guest' + generateRandomNumber,
       email: 'Guest@Guest.com',
       password: null,
       email_verified: false,
       picture: generatedPlaceholder,
     });
-
 
     } 
     catch(error) {
@@ -90,11 +90,21 @@ function Login() {
 
        <div className="login-buttons">
 
-        <Button> <GrGoogle/> Sign in with Google </Button>
+        <button> <GrGoogle/> Sign in with Google </button>
 
         <p> or </p>
 
-        <Button variant="outline"
+        <Button 
+        variant="soft"
+        
+        style={{
+        height: '45px',
+        borderRadius: '10px',
+        fontSize: '1.0rem',
+        color: 'var(--text-color)',
+        fontWeight: '400'
+        }}
+
         onClick={handleGuestLogin}
         > <FiUser/>  Create a temporary board as a Guest </Button>
         

@@ -3,11 +3,23 @@ import TextType from "../react-bits/TextType";
 import { AspectRatio, Card } from "@radix-ui/themes";
 import { MdOutlineDraw } from "react-icons/md";
 
+import { useNavigate } from "react-router";
+import useStore from "../ZustandStore.tsx";
+
 function Home() {
+
+  const navigate = useNavigate();
+
+  const setGuest = useStore((state: any) => state.setGuest);
+  const setLoggedin = useStore((state: any) => state.setLoggedin);
 
   function StartAsGuest() {
 
-    window.location.href = "dashboard";
+    setGuest(true);
+    setLoggedin(false);
+
+    navigate('/dashboard');
+
   }
 
   return (

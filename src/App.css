@@ -32,6 +32,30 @@ body {
   color: white;
 }
 
+.toastify {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  max-width: min(420px, calc(100vw - 32px)) !important;
+  padding: 14px 18px !important;
+  border-radius: 15px !important;
+  background: #261938 !important;
+  color: white !important;
+  font-family: 'Google Sans Flex', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24) !important;
+}
+
+.toastify .toast-close {
+  color: white;
+  opacity: 0.7;
+}
+
+.toastify .toast-close:hover {
+  opacity: 1;
+}
+
 .main-container{
   display: flex;
   flex-direction: column;
@@ -525,6 +549,7 @@ color: #A259FF;
   width: 100%;
   height: fit-content;
 }
+
 
 .dashboard-welcome{
   display: flex;

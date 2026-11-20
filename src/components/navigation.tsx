@@ -10,7 +10,7 @@ import { MdAccountCircle, MdOutlineDraw } from "react-icons/md";
 import { IoArrowBack } from "react-icons/io5";
 
 import useStore from "../ZustandStore";
-import { DropdownMenu } from "@radix-ui/themes";
+import { Button, DropdownMenu } from "@radix-ui/themes";
 
 interface NavigationProps {
   toggleLight: React.MouseEventHandler<HTMLButtonElement>;
@@ -46,8 +46,19 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
 
             ) : (
 
-            <Link className="nav-item" id="workspace-button" to="/dashboard">
+           <Link to="/login">
+            <Button 
+           className="nav-item" 
+           variant="soft"
+           style={{
+             height: '40px',
+             borderRadius: '10px',
+             color: 'var(--text-color)',
+             fontSize: '1.0rem',
+             fontWeight: '400'
+           }}>
               <MdOutlineDraw /> Create a Workspace
+             </Button>
             </Link>
             )
            }
@@ -62,7 +73,7 @@ function Navigation({ isLightOn, toggleLight }: NavigationProps) {
             </button>
       
 
-            {isGuest && isLoggedIn ? (
+            {!isGuest && !isLoggedIn ? (
 
             <Link className="nav-item" id="login-button" to="/login">
               <FiUser /> Login

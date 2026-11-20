@@ -1,32 +1,149 @@
 
 
-.accounts-backing{
+.accounts h2{
     display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 0dvh;
-    background-color: var(--gray-2);
+    align-items: flex-start;
+    font-weight: 400;
+}
 
-    padding: 10px;
+.accounts-backing {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: clamp(24px, 5vw, 64px) 20px;
     margin: 0 auto;
 }
 
-.accounts{
+.accounts {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: center;
-    height: 100%;
+    gap: 14px;
+    width: 600px;
+    margin: auto;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: var(--slate-2);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.2;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.back-to-dash {
+    display: flex;
+    width:100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.0rem;
+
+    color: var(--text-color);
+}
+
+.back-to-dash:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.back-to-dash svg{
+    margin: 10px;
+    color: var(--plum-8);
 }
 
 .user-name{
-    display: flex;  
-    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    padding: 20px;
 }
 
-.user-name img{
-    height: 50px;
-    width: 50px;
-    margin: 10px;
+.user-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.user-id,
+.user-email {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.user-id span, .user-email span{
+   margin-left: 10px;
+   color: var(--slate-9)
+}
+
+
+.user-operations {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--slate-2);
+}
+
+.accounts-name-input,
+.accounts-password-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    font-size: 1.0rem;
+    background-color: transparent;
+    border: 0px;
+}
+
+.accounts-name-input:focus,
+.accounts-password-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.accounts-name,
+.accounts-password{
+
+    display: flex;
+    align-items: space-between;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--slate-3);
+    color: var(--text-color);
+    border-radius: 10px;
+}
+
+.accounts-name svg,
+.accounts-password svg{
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.delete-account,
+.sign-out {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
 }

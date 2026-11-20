@@ -28,7 +28,8 @@ function Dashboard(){
   const [view, setView] = useState(true);
 
   const userProfile = useStore((state: any) => state.userProfile);
-  const isGuest = useStore((state: any) => state.isguest);
+  const isGuest = useStore((state: any) => state.isGuest);
+  const isLoggedIn = useStore((state: any) => state.isLoggedIn);
   
   // possible filters
 
@@ -121,7 +122,7 @@ function Dashboard(){
           <CreateBoardModal onCreate={CreateWhiteboard} />
 
 
-          {isGuest ? (
+          {isGuest && isLoggedIn ? (
 
             <Link to="/Login">
           <button className="dashboard-login"> 
@@ -138,10 +139,19 @@ function Dashboard(){
           <div className="dashboard-account">
 
             <Link to="/Accounts">
-            <Button variant="outline">
-           
+            <Button variant="soft" 
+            style={{
+                    height: '40px',
+                    borderRadius: '10px',
 
-          <FiUser /> View guest account
+                    color: 'white',
+                    fontSize: '1.0rem',
+                    fontWeight: '400'             
+                   }}
+
+              >
+           
+          <FiUser style={{ fontSize: '1.0rem'}} /> View guest account
 
             </Button>
             </Link>
@@ -159,7 +169,20 @@ function Dashboard(){
 
           <div className='toolbar-left'>
 
-          <button> <MdOutlinePassword /> Join workspace via code </button>
+          <Button
+          variant="soft"
+          style={{
+             height: '40px',
+             borderRadius: '10px',
+             color: 'var(--text-color)',
+             fontSize: '1.0rem',
+             fontWeight: '400'
+          }}
+
+          > 
+            <MdOutlinePassword /> 
+            Join workspace via code 
+            </Button>
           
           <input 
           type="search" 
