@@ -22,6 +22,8 @@ I will not go so far as to use TLDraw for this project, as this abstracts away h
 
 <img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/89116697-2ccc-4fd3-9a5f-35478b9adede" />
 
+<img width="1918" height="936" alt="image" src="https://github.com/user-attachments/assets/fb724c17-e43b-4fca-8110-e38980c10f72" />
+
 <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/d0f659bc-317e-47df-9ec3-95d697f371b5" />
 
 ---
